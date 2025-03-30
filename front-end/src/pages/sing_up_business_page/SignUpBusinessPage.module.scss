@@ -1,0 +1,123 @@
+.conteiner{
+    display: flex;
+}
+
+.left{
+    background-color: white;
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    width: 700px;
+    height: 600px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1{
+        font-size: 48px;
+    }
+
+    h2{
+        margin-top: 5px;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        a{
+            color: #636AE8;
+            &:hover{
+                text-decoration:underline;
+            }
+        }
+
+        &::after{
+            content: "";
+            display: block;
+            width: 80%;
+            height: 2px;
+            background: #bdc1ca;
+            margin: 15px auto 0;
+        }
+    }
+
+    &__flex{
+        width: 100%;
+        display: flex;
+    }
+
+    &__column{
+        width: 50%;
+    }
+
+    &__inputBar{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__buttonBar{
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        width: 60%;
+    }
+}
+
+.rigth{
+    position: relative;
+    overflow: hidden;
+    background-color: #fff7e5;
+    width: 50vw;
+    height: 100vh;
+}
+
+.shape1{
+    position: absolute;
+    height: 60vh;
+    width: 60vh;
+    background-color: #f5bcce;
+    border-radius: 50%;
+    z-index: 0;
+    left: 30vw;
+    bottom: 65vh;
+}
+
+.shape2{
+    position: absolute;
+    height: 55vh;
+    width: 55vh;
+    background-color: #fbe0e8;
+    border-radius: 50%;
+    z-index: 0;
+    left: -7vw;
+    top: 70vh;
+}
+
+.shape3{
+    position: absolute;
+    height: 30vh;
+    width: 30vh;
+    background-color: #bcbff5;
+    border-radius: 40px;
+    z-index: 0;
+    left: -5vw;
+    bottom: 63vh;
+    rotate: 17deg;
+}
+
+.shape4{
+    position: absolute;
+    height: 35vh;
+    width: 35vh;
+    background-color: #e0e1fa;
+    border-radius: 40px;
+    z-index: 0;
+    left: 39vw;
+    top: 68vh;
+    rotate: 325deg;
+}

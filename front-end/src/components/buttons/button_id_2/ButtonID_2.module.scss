@@ -1,0 +1,17 @@
+.button{
+    height: 40px;
+    width: 40px;
+
+    border-radius: 30px;
+    border: none;
+    background: none;
+
+    font-size: 14px;
+    line-height: 0;
+    z-index: 1;
+
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.204);
+        transition: all 250ms ease-in-out;
+    }
+}

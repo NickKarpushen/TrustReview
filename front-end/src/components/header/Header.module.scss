@@ -1,0 +1,93 @@
+.conteiner{
+    width: 100%;
+    height: 452px;
+    background-color: #fff7e5;
+    padding: 20px 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.menu{
+    display: flex;
+    justify-content: space-between;
+
+    &__rightRow{
+        display: flex;
+        justify-content: space-between;
+        gap: 60px;
+    }
+}
+
+.searchBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 100%;
+    margin-top: 90px;
+
+    h1{
+        z-index: 1;
+        font-size: 48px;
+        justify-content: center;
+        color: #171a1f;
+        &::after{
+            content: "";
+            display: block;
+            width: 80%;
+            height: 3px;
+            background: #bdc1ca;
+            margin: 30px auto 0;
+        }
+    }
+
+    &__input{
+        margin-top: 40px;
+    }
+}
+
+.shape1{
+    position: absolute;
+    height: 60vh;
+    width: 60vh;
+    background-color: #f5bcce;
+    border-radius: 50%;
+    z-index: 0;
+    left: 75vw;
+    bottom: 30vh;
+}
+
+.shape2{
+    position: absolute;
+    height: 55vh;
+    width: 55vh;
+    background-color: #fbe0e8;
+    border-radius: 50%;
+    z-index: 0;
+    left: 3vw;
+    top: 40vh;
+}
+
+.shape3{
+    position: absolute;
+    height: 30vh;
+    width: 30vh;
+    background-color: #bcbff5;
+    border-radius: 40px;
+    z-index: 0;
+    left: -3vw;
+    bottom: 35vh;
+    rotate: 35deg;
+}
+
+.shape4{
+    position: absolute;
+    height: 35vh;
+    width: 35vh;
+    background-color: #e0e1fa;
+    border-radius: 40px;
+    z-index: 0;
+    left: 70vw;
+    top: 50vh;
+    rotate: 325deg;
+}

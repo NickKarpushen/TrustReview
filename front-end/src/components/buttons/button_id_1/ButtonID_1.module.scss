@@ -1,0 +1,33 @@
+.button{
+    height: 40px;
+    width: auto;
+
+    padding: 0 30px;
+    border-radius: 30px;
+    border: none;
+
+    font-size: 14px;
+    line-height: 0;
+    z-index: 1;
+}
+
+.fill{
+    background-color: #636AE8;
+    color: white;
+
+    &:hover{
+        background-color: #484dae;
+        transition: all 250ms ease-in-out;
+    }
+}
+
+.border{
+    border: #636AE8 solid 2px;
+    background: none;
+    color: #636AE8;
+
+    &:hover{
+        background-color: #484dae33;
+        transition: all 250ms ease-in-out;
+    }
+}

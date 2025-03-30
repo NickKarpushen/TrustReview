@@ -1,0 +1,27 @@
+.input{
+    position: relative;
+    height: 50px;
+    width: 550px;
+    padding: 0 15px;
+
+    border-radius: 25px;
+    border: 2px solid #bdc1ca;
+
+
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    &:hover{
+        border: 2px solid #636AE8;
+        transition: all 250ms ease-in-out;
+    }
+
+    &:focus{
+        border: 2px solid #636AE8;
+    }
+
+    &::placeholder{
+        color: #bdc1ca;
+    }
+}

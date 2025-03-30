@@ -1,28 +1,25 @@
 import './App.css';
-import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import MainPage from './pages/main_page/MainPage';
+import SignUpPage from './pages/sing_up_page/SIgnUpPage';
+import NotFoundPage404 from './pages/NotFoundPage404/NotFoundPage404';
+import LogInPage from './pages/log_in_page/LogInPage';
+import SignUpBusinessPage from './pages/sing_up_business_page/SignUpBusinessPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from './contexts/UserContext';
 
 function App() {
-
-  const[message, setMessage] = useState();
-
-  useEffect(() => {
-    const fetchData = async() =>{
-      try{
-        const res = await axios.get('http://localhost:8000/');
-        setMessage(res.data.message);
-      }catch{
-        console.log('error')
-      }
-    }
-
-    fetchData();
-  }, [])
-
   return (
-    <div className="App">
-      {message}
-    </div>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/sign_up" element={<SignUpPage />} />
+          <Route path="sign_up_business" element={<SignUpBusinessPage/>} />
+          <Route path="/log_in" element={<LogInPage/>}/>
+          <Route path="*" element={<NotFoundPage404 />}/>
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 
