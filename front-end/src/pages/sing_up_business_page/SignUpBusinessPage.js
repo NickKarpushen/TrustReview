@@ -1,15 +1,66 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import {useNavigate } from "react-router-dom";
+import axios from 'axios';
 import styles from './SignUpBusinessPage.module.scss';
 import InputID_2 from '../../components/inputs/input_id_2/InputID_2';
+import SelectID_1 from '../../components/selects/select_id_1/SelectID_1';
 import ButtonID_3 from '../../components/buttons/button_id_3/ButtonID_3';
-import ButtonID_1 from '../../components/buttons/button_id_1/ButtonID_1';
 import ButtonID_2 from '../../components/buttons/button_id_2/ButtonID_2';
 import CrossImage from '../../assets/icon/cross.png';
+import CloseEye from '../../assets/icon/closeEye.png';
+import Eye from '../../assets/icon/eye.png';
+import { SignUpBusiness } from '../../api/users';
+
 
 const SignUpBusinessPage = () => {
 
     const navigate = useNavigate();
+    const [name, setName] = useState();
+    const [surname, setSurname] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [passwordConfirm, setPasswordConfirm] = useState();
+
+    const [company_name, setCompanyName] = useState();
+    const [work_email, setWorkEmail] = useState();
+    const [phone_number, setPhoneNumber] = useState();
+    const [website_link, setWebsiteLink] = useState();
+    const [number_employment, setNumberEmployment] = useState();
+    const [category, setCategory] = useState("");
+
+    const [categories, setCategories] = useState([]);
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect (() => {
+        const fetchCategory = async() =>{
+            try{
+                const res = await axios.get('http://localhost:4000/api/categories');
+                console.log(res.data)
+                setCategories(res.data)
+            }catch(error){
+                console.log(error)
+            }
+        }
+        fetchCategory();
+    }, [])
+
+    const handleSingUpClick = async() => {
+        try{
+            const res = await SignUpBusiness(name, surname, email, password, passwordConfirm, 
+                company_name, work_email, phone_number, website_link, number_employment, category);
+            console.log(res)
+            if (res.status === 201){
+                navigate('/log_in');
+            }
+        }catch (error) {
+            console.log("Error:", error.response.data.message);
+        }
+    }
+
+    const VisibleCLick = () =>{
+        setIsVisible(!isVisible);
+    }
 
     const handleToLogInClick = () =>{
         navigate("/log_in");
@@ -24,50 +75,53 @@ const SignUpBusinessPage = () => {
                     <div className={styles.form__flex}>
                         <div className={styles.form__column}>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Name"/>
+                                <InputID_2 placeholder="Name" value={name} setState={setName}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Email"/>
+                                <InputID_2 placeholder="Email" value={email} setState={setEmail}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Confirm Password"/>
+                                <InputID_2 placeholder="Confirm Password" type={isVisible ? "text" : "password"} value={passwordConfirm} setState={setPasswordConfirm}/>
                             </div>
                         </div>
                         <div className={styles.form__column}>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Surname"/>
+                                <InputID_2 placeholder="Surname" value={surname} setState={setSurname}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Password"/>
+                                <InputID_2 placeholder="Password" type={isVisible ? "text" : "password"} value={password} setState={setPassword}/>
+                                <div className={styles.form__VisibleBar}>
+                                    <ButtonID_2 src={isVisible ? Eye : CloseEye} size={30} width={18} onClick={VisibleCLick}/>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className={styles.form__flex}>
                         <div className={styles.form__column}>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Company Name"/>
+                                <InputID_2 placeholder="Company Name" value={company_name} setState={setCompanyName}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Phone Number"/>
+                                <InputID_2 placeholder="Phone Number" value={phone_number} setState={setPhoneNumber}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Category"/>
+                                <SelectID_1 text={"Category"} value={category} setState={setCategory} map={categories}/>
                             </div>
                         </div>
                         <div className={styles.form__column}>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Work Email"/>
+                                <InputID_2 placeholder="Work Email" value={work_email} setState={setWorkEmail}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Website (not necessarily)"/>
+                                <InputID_2 placeholder="Website (not necessarily)" value={website_link} setState={setWebsiteLink}/>
                             </div>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Number of Employees (not necessarily)"/>
+                                <InputID_2 placeholder="Number of Employees (not necessarily)" value={number_employment} setState={setNumberEmployment}/>
                             </div>
                         </div>
                     </div>
                     <div className={styles.form__buttonBar}>
-                        <ButtonID_3 text="Sign up"/>
+                        <ButtonID_3 text="Sign up" function={handleSingUpClick}/>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,30 @@ export const SignUpUser = async(name, surname, email, password, passwordConfirm)
     }
 }
 
+export const SignUpBusiness = async(name, surname, email, password, passwordConfirm, company_name, work_email, phone_number, website_link, number_employment, cat_id) => {
+    console.log(cat_id);
+    try{
+        const res = await axios.post ('/business', 
+            {
+                name: name, 
+                surname: surname, 
+                email: email, 
+                password: password, 
+                passwordConfirm: passwordConfirm, 
+                role: 'business',
+                company_name: company_name, 
+                work_email: work_email, 
+                phone_number: phone_number, 
+                website_link: website_link, 
+                number_employment: number_employment,
+                cat_id: cat_id
+            });
+        return res;
+    }catch (error){
+        throw error;
+    }
+}
+
 export const Authentication = async(email, password, passwordConfirm) => {
     try{
         const res = await axios.post ('/authentication', {

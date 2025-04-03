@@ -1,0 +1,27 @@
+.select{
+    height: 40px;
+    width: 290px;
+
+    padding: 0 12px;
+
+    border-radius: 6px;
+    border: 2px solid #bdc1ca;
+
+    font-weight: 500;
+    font-size: 16px;
+
+    &:hover{
+        border: 2px solid #636AE8;
+        transition: all 250ms ease-in-out;
+    }
+
+    &:focus{
+        border: 2px solid #636AE8;
+    }
+
+    &::placeholder{
+        color: #171a1f;
+        font-size: 14px;
+        font-weight: 500;
+    }
+}

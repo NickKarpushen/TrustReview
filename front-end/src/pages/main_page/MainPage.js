@@ -14,7 +14,7 @@ const MainPage = () => {
             </header>
             <main className={styles.main}>
                 <section>
-                    <h1>{user && user.name} {user && user.surname} {user && user.createdAt}</h1>
+                    <h1>{user && user.name} {user && user.surname}</h1>
                 </section>
                 <section>
 

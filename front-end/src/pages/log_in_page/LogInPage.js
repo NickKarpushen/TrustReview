@@ -6,6 +6,8 @@ import ButtonID_3 from '../../components/buttons/button_id_3/ButtonID_3';
 import ButtonID_1 from '../../components/buttons/button_id_1/ButtonID_1';
 import ButtonID_2 from '../../components/buttons/button_id_2/ButtonID_2';
 import CrossImage from '../../assets/icon/cross.png';
+import CloseEye from '../../assets/icon/closeEye.png';
+import Eye from '../../assets/icon/eye.png';
 import { useUser } from '../../contexts/UserContext';
 
 import { Authentication } from '../../api/users';
@@ -18,13 +20,20 @@ const LogInPage = () => {
     const [password, setPassword] = useState();
     const [passwordConfirm, setPasswordConfirm] = useState();
 
+    const [isVisible, setIsVisible] = useState(false);
+
     const handleLogInClick = async() => {
         try{
             const res = await Authentication(email, password, passwordConfirm);
             updateUser();
+            navigate('/')
         }catch (error) {
             console.log("Error:", error.response?.data?.message || error.message || "Невідома помилка");
         }
+    }
+
+    const VisibleCLick = () =>{
+        setIsVisible(!isVisible);
     }
     
     const handleBackClick = () =>{
@@ -56,10 +65,13 @@ const LogInPage = () => {
                         <InputID_2 placeholder="Email" value={email} setState={setEmail}/>
                     </div>
                     <div className={styles.form__inputBar}>
-                        <InputID_2 placeholder="Password" type="password" value={password} setState={setPassword}/>
+                        <InputID_2 placeholder="Password" type={isVisible ? "text" : "password"} value={password} setState={setPassword}/>
+                        <div className={styles.form__VisibleBar}>
+                            <ButtonID_2 src={isVisible ? Eye : CloseEye} size={30} width={18} onClick={VisibleCLick}/>
+                        </div>
                     </div>
                     <div className={styles.form__inputBar}>
-                        <InputID_2 placeholder="Confirm password" type="password" value={passwordConfirm} setState={setPasswordConfirm}/>
+                        <InputID_2 placeholder="Confirm password" type={isVisible ? "text" : "password"} value={passwordConfirm} setState={setPasswordConfirm}/>
                     </div>
                     <div className={styles.form__buttonBar}>
                         <ButtonID_3 text="Log In" function={handleLogInClick}/>

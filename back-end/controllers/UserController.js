@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Company = require('../models/Company');
+const Category = require('../models/Category');
 
 const JWT_SECRET = "SECRET";
 
@@ -46,6 +48,57 @@ const createUser = async(req, res) => {
     }
 }
 
+const createBusiness = async(req, res) => {
+    try {
+        const { name, surname, email, password, passwordConfirm, role,
+            company_name, work_email, phone_number, website_link, number_employment, cat_id
+        } = req.body;
+
+        console.log(cat_id)
+
+        const user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        if (password !== passwordConfirm) {
+            return res.status(400).json({ message: 'Password not confirmed' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const company = await Company.findOne({ work_email });
+        if (company) {
+            return res.status(400).json({ message: 'Company already exists' });
+        }
+
+        const category = await Category.findById(cat_id);
+
+        const newUser = new User({ name, surname, email, password: hashedPassword, role });
+        
+        const newCompany = new Company({
+            company_name, work_email, phone_number, website_link, number_employment, user_id: newUser._id, cat_id: category._id 
+        });
+
+        await newUser.validate();
+        await newCompany.validate();
+
+        const savedUser = await newUser.save();
+        newCompany.user_id = savedUser._id;
+        await newCompany.save();
+
+        category.company_count = category.company_count + 1;
+        await category.save();
+
+        res.status(201).json({ message: "User and company created successfully" });
+    }
+    catch (error){
+        console.error("Server error:", error);  
+        res.status(500).json({message: 'Error authenticating user'});
+    }
+}
+
 const authenticationUser = async(req, res) =>{
     try{
         const {email, password, passwordConfirm} = req.body;
@@ -84,4 +137,4 @@ const profileUser = async(req, res) => {
     }
 }
 
-module.exports = {createUser, authenticationUser, profileUser ,authMiddleware};
+module.exports = {createUser, authenticationUser, profileUser ,authMiddleware, createBusiness};
