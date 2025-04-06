@@ -1,0 +1,16 @@
+.button{
+    height: 50px;
+    padding: 0px 30px;
+    background-color: rgb(99, 106, 232);
+
+    color: white;
+    font-size: 18px;
+
+    border-radius: 12px;
+    border: none;
+
+    &:hover{
+        background-color: #484dae;
+        transition: all 250ms ease-in-out;
+    }
+}   

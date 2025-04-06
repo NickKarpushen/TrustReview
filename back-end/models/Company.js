@@ -10,7 +10,7 @@ const companySchema = new db.Schema({
     website_link: {type: String, default: null},
     number_employment: {type: String, default: null},
     rating: {type: Number, default: 0},
-    reviews: {type: Number, default: 0},
+    review_count: {type: Number, default: 0},
     user_id: { type: db.Schema.Types.ObjectId, ref: 'User', required: true },
     cat_id: { type: db.Schema.Types.ObjectId, ref: 'Category', required: true },
     createdAt: {type: Date, default: Date.now}

@@ -3,6 +3,10 @@ const db = require('mongoose');
 const userSchema = new db.Schema({
     name: {type: String, required: true},
     surname: {type: String, required: true},
+    avatar: {
+        data: {type: Buffer, default: null},
+        contentType: {type: String, default:null}
+    },
     email: {type: String, required: true,
         match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         unique: true},

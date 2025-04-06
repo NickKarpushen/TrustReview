@@ -1,0 +1,19 @@
+.button{
+    height: 40px;
+    padding: 0 20px 0 7px;
+    background-color: #b9bec5;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+
+    &:hover{
+        background-color: #a3a7ae;
+        transition: all 250ms ease-in-out;
+    }
+}

@@ -60,6 +60,10 @@ export const Authentication = async(email, password, passwordConfirm) => {
 }
 
 export const GetDataUser = async() => {
+    if (!sessionStorage.getItem("token")){
+        return null;
+    }
+    
     try{
         const res = await axios.get('/users', {
             headers:{
@@ -72,4 +76,8 @@ export const GetDataUser = async() => {
     }catch (error){
         throw error.response ? error.response : { message: error.message };
     }
+}
+
+export const UserExit = async() => {
+    sessionStorage.removeItem('token');
 }

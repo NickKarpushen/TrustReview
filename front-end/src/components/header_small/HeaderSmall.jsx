@@ -2,9 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonID_1 from "../buttons/button_id_1/ButtonID_1";
 import ButtonID_2 from "../buttons/button_id_2/ButtonID_2";
-import InputID_1 from "../inputs/input_id_1/InputID_1";
 import MenuImage from "../../assets/icon/menu.png"
-import styles from './Header.module.scss';
+import styles from './HeaderSmall.module.scss';
 
 
 const Header = (props) => {
@@ -22,9 +21,7 @@ const Header = (props) => {
     return(
         <div className={styles.conteiner}>
             <div className={styles.shape1}></div>
-            <div className={styles.shape2}></div>
             <div className={styles.shape3}></div>
-            <div className={styles.shape4}></div>
             <nav className={props.isState ? styles.menu : styles.menuDisactive}>
                 {props.isState && <ButtonID_2 src={MenuImage} width={30} onClick={props.function}/>}
                 <div className={styles.menu__rightRow}>
@@ -32,12 +29,6 @@ const Header = (props) => {
                     <ButtonID_1 text = "Sign up" className = "border" function={handleSignUpClick}/>
                 </div>
             </nav>
-            <div className={styles.searchBox}>
-                <h1>Welcome to our website</h1>
-                <div className={styles.searchBox__input}>
-                    <InputID_1 placeholder = "Search company"/>
-                </div>
-            </div>
         </div>
     );
 }

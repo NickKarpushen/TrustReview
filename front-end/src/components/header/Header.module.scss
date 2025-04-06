@@ -13,10 +13,20 @@
 
     &__rightRow{
         display: flex;
-        justify-content: space-between;
         gap: 60px;
     }
 }
+
+.menuDisactive{
+    display: flex;
+    justify-content: end;
+
+    &__rightRow{
+        display: flex;
+        gap: 60px;
+    }
+}
+
 
 .searchBox{
     display: flex;

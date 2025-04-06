@@ -22,7 +22,7 @@ const createCategory = async(req, res) => {
     }
 }
 
-const GetCategories = async(req, res) => {
+const getCategories = async(req, res) => {
     try {
         const categories = await Category.find()
         res.status(200).json(categories)
@@ -33,4 +33,4 @@ const GetCategories = async(req, res) => {
     }
 }
 
-module.exports = {createCategory, GetCategories};
+module.exports = {createCategory, getCategories};

@@ -1,0 +1,50 @@
+import React from 'react';
+import HeaderSmall from '../../components/header_small/HeaderSmall';
+import styles from './ProfileUser.module.scss';
+import ButtonID_5 from '../../components/buttons/button_id_5/ButtonID_5';
+import { useUser } from '../../contexts/UserContext';
+import Calendar from '../../assets/icon/calendar.png';
+import Avatar from '../../assets/image/avatar.png';
+
+const ProfileUser = (props) => {
+
+    const {user} = useUser();
+
+    const formattedDate = new Date(user.createdAt).toLocaleDateString('uk-UA', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    });
+
+    return (
+        <div className={styles.conteiner}>
+            <header className={styles.header}>
+                <HeaderSmall function={props.function} isState={props.isState}/>
+            </header>
+            <main className={styles.main}>
+                <section className={styles.userData}>
+                    <div className={styles.userData__imgBar}>
+                        <img src={Avatar} width='180px' height='180px'/>
+                    </div>
+                    <div className={styles.userData__textBar}>
+                        <h1>{user.name} {user.surname}</h1>
+                        <h2>{user.email}</h2>
+                        <div className={styles.userData__date}>
+                            <img src={Calendar} width='28px' height='28px'/>
+                            <h2>{formattedDate}</h2>
+                        </div>
+                    </div>
+                    <div className={styles.userData__buttonBar}>
+                        <ButtonID_5 text="Edit"/>
+                    </div>
+                </section>
+                <section className={styles.reviews}>
+                    <h1>My reviews <p>0 reviews</p></h1>
+
+                </section>  
+            </main>
+        </div>
+    );
+}
+
+export default ProfileUser;

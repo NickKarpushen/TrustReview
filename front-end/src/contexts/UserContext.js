@@ -24,6 +24,9 @@ export const UserProvider = ({children}) => {
         const fetchUser = async() => {
             try{
                 const res = await GetDataUser();
+                if (res === null){
+                    setUser(null)
+                }
                 setUser(res.user);
                 console.log(res.message);
             }catch (error){
