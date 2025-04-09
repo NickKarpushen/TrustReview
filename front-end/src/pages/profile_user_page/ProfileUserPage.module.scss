@@ -1,3 +1,11 @@
+@keyframes start{
+    0%{
+        opacity: 0%;
+    }100%{
+        opacity: 100%;
+    }
+}
+
 .conteiner{
     width: 100%;
     display: flex;
@@ -11,6 +19,7 @@
 
 .main{
     width: 1200px;
+    animation: start 500ms ease-in-out 0s 1;
 }
 
 .userData{

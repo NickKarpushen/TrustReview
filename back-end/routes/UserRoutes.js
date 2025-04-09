@@ -10,5 +10,7 @@ router.post('/authentication', UserController.authenticationUser);
 
 router.get('/users', UserController.authMiddleware, UserController.profileUser);
 
+router.patch('/users', UserController.authMiddleware, UserController.upload.single('avatar'), UserController.updateUser);
+
 module.exports = router;
 

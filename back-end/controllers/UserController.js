@@ -1,5 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const User = require('../models/User');
 const Company = require('../models/Company');
 const Category = require('../models/Category');
@@ -133,8 +138,33 @@ const profileUser = async(req, res) => {
         const user = await User.findById(req.userId).select("-password");
         res.status(200).json({user, message: "Get user data"});
     } catch (error) {
-        res.status(500).json({ message: "Помилка сервера" });
+        res.status(500).json({ message: "Server error" });
     }
 }
 
-module.exports = {createUser, authenticationUser, profileUser ,authMiddleware, createBusiness};
+const updateUser = async(req, res) => {
+    try {
+        const { userId } = req.body;
+        const user = await User.findById(userId);
+
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        if (req.body.name != 'undefined') user.name = req.body.name;
+        if (req.body.surname != 'undefined') user.surname = req.body.surname;
+
+        if (req.file) {
+            user.avatar = {
+                data: req.file.buffer.toString('base64'),
+                contentType: req.file.mimetype
+            };
+        }
+
+        await user.save();
+
+        res.status(200).json({message: 'User updated successfully'})
+    } catch (error){
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = {createUser, authenticationUser, profileUser ,authMiddleware, createBusiness, updateUser, upload};

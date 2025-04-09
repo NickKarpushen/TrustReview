@@ -1,3 +1,30 @@
+@keyframes start{
+    0%{
+        height: 452px;
+    }
+    100%{
+        height: 80px;
+    }
+}
+
+@keyframes start_shape_1{
+    0%{
+        bottom: 30vh;
+    }
+    100%{
+        bottom: -20vh;
+    }
+}
+
+@keyframes start_shape_3{
+    0%{
+        bottom: 35vh;
+    }
+    100%{
+        bottom: -15.5vh;
+    }
+}
+
 .conteiner{
     width: 100%;
     height: 80px;
@@ -5,6 +32,7 @@
     padding: 20px 30px;
     overflow: hidden;
     position: relative;
+    animation: start 250ms ease-in-out 0s 1;
 }
 
 .menu{
@@ -35,7 +63,8 @@
     border-radius: 50%;
     z-index: 0;
     left: 75vw;
-    bottom: -35vh;
+    bottom: -20vh;
+    animation: start_shape_1 250ms ease-in-out 0s 1;
 }
 
 .shape3{
@@ -46,6 +75,7 @@
     border-radius: 40px;
     z-index: 0;
     left: -3vw;
-    bottom: -13vh;
+    bottom: -15.5vh;
     rotate: 35deg;
+    animation: start_shape_3 250ms ease-in-out 0s 1;
 }

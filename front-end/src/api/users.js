@@ -78,6 +78,27 @@ export const GetDataUser = async() => {
     }
 }
 
+export const UpdateUser = async(file, user, name, surname) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    formData.append('userId', user._id);
+    formData.append('name', name);
+    formData.append('surname', surname);
+
+    try{
+        const res = await axios.patch('http://localhost:4000/api/users', formData, 
+        {
+            headers:{
+            Authorization: `${sessionStorage.getItem("token")}`
+            } 
+        }
+        );
+        console.log(res)
+    }catch (error){
+        throw error.response ? error.response : { message: error.message };
+    }
+}
+
 export const UserExit = async() => {
     sessionStorage.removeItem('token');
 }

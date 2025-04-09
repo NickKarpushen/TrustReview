@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const UserRouter = require('./routes/UserRoutes');
 const CategoryRoutes = require('./routes/CategoryRoutes');
+const CompanyRoutes = require('./routes/CompanyRoutes');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/api', UserRouter);
 app.use('/api', CategoryRoutes);
+app.use('/api', CompanyRoutes);
 
 app.get ('/', (req, res) =>{
     res.status(200).json({message: "Hello world"})

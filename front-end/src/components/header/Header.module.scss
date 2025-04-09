@@ -1,3 +1,30 @@
+@keyframes start{
+    0%{
+        height: 80px;
+    }
+    100%{
+        height: 452px;
+    }
+}
+
+@keyframes start_shape_1{
+    0%{
+        bottom: -20vh;
+    }
+    100%{
+        bottom: 30vh;
+    }
+}
+
+@keyframes start_shape_3{
+    0%{
+        bottom: -15.5vh;
+    }
+    100%{
+        bottom: 35vh;
+    }
+}
+
 .conteiner{
     width: 100%;
     height: 452px;
@@ -5,6 +32,7 @@
     padding: 20px 30px;
     overflow: hidden;
     position: relative;
+    animation: start 250ms ease-in-out 0s 1;
 }
 
 .menu{
@@ -65,6 +93,7 @@
     z-index: 0;
     left: 75vw;
     bottom: 30vh;
+    animation: start_shape_1 250ms ease-in-out 0s 1;
 }
 
 .shape2{
@@ -88,6 +117,7 @@
     left: -3vw;
     bottom: 35vh;
     rotate: 35deg;
+    animation: start_shape_3 250ms ease-in-out 0s 1;
 }
 
 .shape4{

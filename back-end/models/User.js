@@ -4,7 +4,7 @@ const userSchema = new db.Schema({
     name: {type: String, required: true},
     surname: {type: String, required: true},
     avatar: {
-        data: {type: Buffer, default: null},
+        data: {type: String, default: null},
         contentType: {type: String, default:null}
     },
     email: {type: String, required: true,
