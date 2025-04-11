@@ -25,7 +25,7 @@
 }
 
 .form{
-    height: 240px;
+    height: 425px;
     width: 540px;
     border-radius: 12px;
 
@@ -33,6 +33,13 @@
     background-color: white;
 
     z-index: 3;
+
+    &__img{
+        height: 150px;
+        width: 150px;
+        background-color: rgb(174, 174, 174);
+        border-radius: 24px;
+    }
 
     &__header{
         height: 54px;
@@ -47,14 +54,20 @@
     }
 
     &__body{
-        height: calc(100% - 54px);
-        padding: 0 25px 0 25px;
+        padding: 0 25px 25px 25px;
+    }
+
+    &__companyData{
         display: flex;
         align-items: center;
     }
 
+    &__companyAbout{
+        margin-top: 20px;
+    }
+
     &__input{
-        height: calc(100% - 54px);
+        height: 100%;
         width: 100%;
         margin-left: 35px;
 
@@ -63,7 +76,7 @@
     }
 
     &__inputBar{
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     &__ava{

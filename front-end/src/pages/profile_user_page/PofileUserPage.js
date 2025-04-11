@@ -35,11 +35,11 @@ const ProfileUser = (props) => {
             <main className={styles.main}>
                 <section className={styles.userData}>
                     <div className={styles.userData__imgBar}>
-                        {user.avatar ? (
+                        {user.avatar.data ? (
                             <img
                                 src={`data:${user.avatar.contentType};base64,${user.avatar.data}`}
                                 alt="User Avatar"
-                                style={{ width: '180px', height: '180px', borderRadius: '50%', border: '10px solid color: rgb(144, 149, 161);' }}
+                                style={{ width: '180px', height: '180px', borderRadius: '50%', objectFit: 'cover'}}
                             />
                             ) : (
                                 <img src={Avatar} width='180px' height='180px'/>

@@ -8,7 +8,9 @@ import SignUpBusinessPage from './pages/sing_up_business_page/SignUpBusinessPage
 import ProfileUserPage from './pages/profile_user_page/PofileUserPage';
 import UserEdit from './components/user_edit/UserEdit';
 import CompanyPage from './pages/company_page/CompanyPage';
+import CompanyEdit from './components/company_edit/CompanyEdit';
 import { Routes, Route, useLocation } from "react-router-dom";
+import { CompanyProvider } from './contexts/CompanyContext';
 import { useUser } from './contexts/UserContext';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -36,9 +38,9 @@ function App() {
           <Route path="/profile_user/*" element={user ? <ProfileUserPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}>
             <Route path='user_edit' element={<UserEdit/>}/>
           </Route>
-          <Route path="/my_company" element={user && user.role === 'business' ? <CompanyPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}>
-
-          </Route>
+            <Route path="/my_company/*" element={<CompanyProvider> {user && user.role === 'business' ? <CompanyPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}</CompanyProvider>}>
+              <Route path='company_edit' element={<CompanyEdit/>}/>
+            </Route>
           <Route path="*" element={<NotFoundPage404 />}/>
         </Routes>
     </div>

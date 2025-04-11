@@ -86,7 +86,7 @@ export const UpdateUser = async(file, user, name, surname) => {
     formData.append('surname', surname);
 
     try{
-        const res = await axios.patch('http://localhost:4000/api/users', formData, 
+        const res = await axios.patch('/users', formData, 
         {
             headers:{
             Authorization: `${sessionStorage.getItem("token")}`

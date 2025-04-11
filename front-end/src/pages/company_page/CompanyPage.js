@@ -3,37 +3,21 @@ import { Outlet, useNavigate } from "react-router-dom";
 import HeaderSmall from '../../components/header_small/HeaderSmall';
 import styles from './CompanyPage.module.scss';
 import ButtonID_5 from '../../components/buttons/button_id_5/ButtonID_5';
-import { useUser } from '../../contexts/UserContext';
-import axios from 'axios';
+import RatingCount from '../../components/rating_count/RatingCount';
+import Avatar from '../../assets/image/avatar.png';
+import Phone from '../../assets/icon/phone.png';
+import Employees from '../../assets/icon/employees.png';
+import Post from '../../assets/icon/post.png';
+import { useCompany } from '../../contexts/CompanyContext';
 
 const CompanyPage = (props) => {
 
-    const {user} = useUser();
+    const {company} = useCompany();
     const navigate = useNavigate();
-    const [company, setCompany] = useState();
 
-    useEffect(() => {
-        fetchCompany();
-    }, [])
-
-    const fetchCompany = async() => {
-        if (!sessionStorage.getItem("token")){
-            return null;
-        }
-        
-        try{
-            const res = await axios.get('http://localhost:4000/api/company', {
-                headers:{
-                    'Content-Type': 'application/json',
-                    Authorization: `${sessionStorage.getItem("token")}`
-                } 
-            });
-            setCompany(res.data.company)
-            console.log(res.data.message)
-        }catch (error){
-            console.log(error.response ? error.response : { message: error.message });
-        }
-    }
+    const handleToEditClick = () => {
+        navigate('company_edit');
+    } 
 
     return (
         <div className={styles.conteiner}>
@@ -45,23 +29,64 @@ const CompanyPage = (props) => {
                 <div className={styles.main__rightCol}>
                     <section className={styles.companyData}>
                         <div className={styles.companyData__imgBar}>
-                            <div className={styles.companyData__img}></div>
+                            {company && company.logo.data ? (
+                                <img
+                                    src={`data:${company.logo.contentType};base64,${company.logo.data}`}
+                                    alt="User Avatar"
+                                    style={{ width: '180px', height: '180px', borderRadius: '18px', objectFit: 'cover'}}
+                                />
+                            ) : (
+                                <img src={Avatar} width='180px' height='180px'/>
+                            )}
                         </div>
                         <div className={styles.companyData__textBar}>
                             <h1>{company && company.company_name}</h1>
-                            <h2>{company && company.rating}</h2>
+                            <div className={styles.companyData__rating}>
+                                <RatingCount rating={company && company.rating}/>
+                                <h2>{company && company.rating}</h2>
+                            </div>
                             <h3>Reviews {company && company.review_count}</h3>
                         </div>
                     </section>
-                    <section className={styles.companyAbout}>
-
-                    </section>
+                    {(company && company.about_company) && 
+                        <>
+                            <section className={styles.companyAbout}>
+                                <h1>About {company && company.company_name}</h1>
+                                <p>{company && company.about_company}</p>
+                            </section>
+                        </>
+                    }
                     <section className={styles.review}>
-
+                        <ButtonID_5 text="Edit Company" onClick={handleToEditClick}/>
                     </section>
                 </div>
                 <div className={styles.main__leftCol}>
-
+                    <section className={styles.linkBar}>
+                        <a href={company && company.website_link} target="_blank" class={styles.link}>{company && company.website_link}</a>
+                    </section>
+                    <section className={styles.contactBar}>
+                        <div className={styles.contact}>
+                            <h1>Contact</h1>
+                            <div className={styles.contact__dataBar}>
+                                <img src={Post} width='24px' height='24px'/><h3>{company && company.work_email}</h3>
+                            </div>
+                            <div className={styles.contact__dataBar}>
+                                <img src={Phone} width='24px' height='24px'/><h3>{company && company.phone_number}</h3>
+                            </div>
+                            {company && company.number_employment &&
+                                <>
+                                    <h1>Employees</h1>
+                                    <div className={styles.contact__dataBar}>
+                                        <img src={Employees} width='24px' height='24px'/><h3>{company && company.number_employment}</h3>
+                                    </div>
+                                </>
+                            }
+                            <h1>Category</h1>
+                            <div className={styles.contact__dataBar}> 
+                                <h3>{company && company.cat_name}</h3>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </main>
         </div>

@@ -11,7 +11,6 @@ export const UserProvider = ({children}) => {
             try{
                 const res = await GetDataUser();
                 setUser(res.user);
-                console.log(res.user);
                 console.log(res.message);
             }catch (error){
                 console.log("Error:", error.response?.data?.message || error.message || "Невідома помилка")

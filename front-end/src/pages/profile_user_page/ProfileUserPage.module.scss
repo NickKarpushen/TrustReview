@@ -20,26 +20,26 @@
 .main{
     width: 1200px;
     animation: start 500ms ease-in-out 0s 1;
+    margin-top: 40px;
 }
 
 .userData{
-    height: 220px;
+    height: 210px;
     width: 100%;
     display: flex;
 
     &__imgBar{
         height: 100%;
-        width: 250px;
+        width: 240px;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: start;
+        align-items: start;
     }
 
     &__textBar{
         width: 71%;
         h1{
             font-size: 36px;
-            margin-top: 30px;
             color: rgb(23, 26, 31);
         }
         h2{

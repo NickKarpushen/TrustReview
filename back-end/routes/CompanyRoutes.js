@@ -5,4 +5,6 @@ const UserController = require('../controllers/UserController')
 
 router.get('/company', UserController.authMiddleware, CompanyController.getCompany)
 
+router.patch('/company', UserController.authMiddleware,  CompanyController.upload.single('logo'), CompanyController.updateCompany)
+
 module.exports = router;

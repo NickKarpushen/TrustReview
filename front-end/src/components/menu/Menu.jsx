@@ -62,11 +62,11 @@ const Header = (props) => {
                     <ButtonID_2 src={BackArrow} size={30} width={25} onClick={props.function}/>
                 </div>
                 {user && <><div className={styles.menu__user}>
-                    {user.avatar ? (
+                    {user.avatar.data ? (
                         <img
                             src={`data:${user.avatar.contentType};base64,${user.avatar.data}`}
                             alt="User Avatar"
-                            style={{ width: '70px', height: '70px', borderRadius: '50%' }}
+                            style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }}
                         />
                         ) : (
                         <img src={Avatar} width='70px' height='70px'/>

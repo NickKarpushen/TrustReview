@@ -144,13 +144,13 @@ const profileUser = async(req, res) => {
 
 const updateUser = async(req, res) => {
     try {
-        const { userId } = req.body;
+        const { userId, name, surname } = req.body;
         const user = await User.findById(userId);
 
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        if (req.body.name != 'undefined') user.name = req.body.name;
-        if (req.body.surname != 'undefined') user.surname = req.body.surname;
+        if (name != 'undefined') user.name = name;
+        if (surname != 'undefined') user.surname = surname;
 
         if (req.file) {
             user.avatar = {

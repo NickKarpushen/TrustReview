@@ -3,6 +3,10 @@ const db = require('mongoose');
 const companySchema = new db.Schema({
     company_name: {type: String, required: true},
     about_company: {type: String, default: null},
+    logo: {
+        data: {type: String, default: null},
+        contentType: {type: String, default:null}
+    },
     work_email: {type: String, required: true,
         match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         unique: true},
