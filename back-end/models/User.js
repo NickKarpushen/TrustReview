@@ -12,6 +12,7 @@ const userSchema = new db.Schema({
         unique: true},
     password: {type: String, required: true, minLength: 8},
     role: {type: String, required: true},
+    review_count: {type: Number, default: 0},
     createdAt: {type: Date, default: Date.now}
 })
 

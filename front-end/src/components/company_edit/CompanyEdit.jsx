@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useUser} from "../../contexts/UserContext";
 import styles from "./CompanyEdit.module.scss";
 import CrossImage from '../../assets/icon/cross.png';
-import Avatar from '../../assets/image/avatar.png';
+import Logo from '../../assets/image/logo.png';
 import AddPhoto from '../../assets/icon/add_photo.png';
 import ButtonID_2 from "../buttons/button_id_2/ButtonID_2";
 import ButtonID_1 from "../buttons/button_id_1/ButtonID_1";
 import InputID_2 from '../../components/inputs/input_id_2/InputID_2';
 import TextareaID_1 from "../textarea/textarea_id_1/TextareaID_1";
 import SelectID_1 from '../selects/select_id_1/SelectID_1';
-import axios from "axios";
-import { UpdateCompany } from "../../api/company";
+import { GetCategories } from "../../api/categories";
+import { UpdateCompany } from "../../api/companies";
 import { useCompany } from '../../contexts/CompanyContext';
 
 const CompanyEdit = () => {
@@ -31,9 +31,8 @@ const CompanyEdit = () => {
     useEffect (() => {
         const fetchCategory = async() =>{
             try{
-                const res = await axios.get('http://localhost:4000/api/categories');
-                console.log(res.data)
-                setCategories(res.data)
+                const res = await GetCategories();
+                setCategories(res)
             }catch(error){
                 console.log(error)
             }
@@ -85,10 +84,10 @@ const CompanyEdit = () => {
                                     <img
                                         src={`data:${company.logo.contentType};base64,${company.logo.data}`}
                                         alt="Company logo"
-                                        style={{ width: '150px', height: '150px', borderRadius: '18px', objectFit: 'cover'}}
+                                        style={{ width: '150px', height: '150px', borderRadius: '15px', objectFit: 'cover'}}
                                     />
                                 ) : (
-                                    <img src={Avatar} width='150px' height='150px'/>
+                                    <img src={Logo} style={{width: '150px', height: '150px', borderRadius:'15px'}}/>
                                 )}
                                 <div className={styles.form__buttonAva}>
                                     <ButtonID_2 src={AddPhoto} size={30} width={25} onClick={handleImgButtonClick}/>
@@ -97,13 +96,13 @@ const CompanyEdit = () => {
                             </div>
                             <div className={styles.form__input}>
                                 <div className={styles.form__inputBar}>
-                                    <InputID_2 placeholder={company && company.company_name} value={company_name} setState={setCompanyName}/>
+                                    <InputID_2 placeholder="Company name" value={company_name} setState={setCompanyName}/>
                                 </div>
                                 <div className={styles.form__inputBar}>
-                                    <InputID_2 placeholder={company && company.website_link} value={website_link} setState={setWebsiteLink}/>
+                                    <InputID_2 placeholder="Website link" value={website_link} setState={setWebsiteLink}/>
                                 </div>
                                 <div className={styles.form__inputBar}>
-                                    <InputID_2 placeholder={company && company.phone_number} value={phone_number} setState={setPhoneNumber}/>
+                                    <InputID_2 placeholder="Phone number" value={phone_number} setState={setPhoneNumber}/>
                                 </div>
                             </div>
                         </div>

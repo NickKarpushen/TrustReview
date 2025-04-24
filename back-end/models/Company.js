@@ -2,7 +2,7 @@ const db = require('mongoose');
 
 const companySchema = new db.Schema({
     company_name: {type: String, required: true},
-    about_company: {type: String, default: null},
+    about_company: {type: String, default: ''},
     logo: {
         data: {type: String, default: null},
         contentType: {type: String, default:null}

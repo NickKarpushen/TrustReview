@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from "react-router-dom";
+import React from 'react';
+import { Outlet, useNavigate} from "react-router-dom";
 import HeaderSmall from '../../components/header_small/HeaderSmall';
 import styles from './ProfileUserPage.module.scss';
 import ButtonID_5 from '../../components/buttons/button_id_5/ButtonID_5';
 import { useUser } from '../../contexts/UserContext';
+import UserReviewList from '../../components/user_review_list/UserReviewList';
 import Calendar from '../../assets/icon/calendar.png';
 import Avatar from '../../assets/image/avatar.png';
 
@@ -12,11 +13,14 @@ const ProfileUser = (props) => {
     const {user} = useUser();
     const navigate = useNavigate();
 
-    const formattedDate = new Date(user.createdAt).toLocaleDateString('uk-UA', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-    });
+    const formattedDate = (value) =>{
+        const formattedDate = new Date(value).toLocaleDateString('uk-UA', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        return <>{formattedDate}</>
+    }
 
     const handleUserEditClick = () => {
         navigate('/profile_user/user_edit');
@@ -50,7 +54,7 @@ const ProfileUser = (props) => {
                         <h2>{user.email}</h2>
                         <div className={styles.userData__date}>
                             <img src={Calendar} width='28px' height='28px'/>
-                            <h2>{formattedDate}</h2>
+                            <h2>{user && formattedDate(user.createdAt)}</h2>
                         </div>
                     </div>
                     <div className={styles.userData__buttonBar}>
@@ -58,9 +62,10 @@ const ProfileUser = (props) => {
                     </div>
                 </section>
                 <section className={styles.reviews}>
-                    {user.role === 'user' && <h1>My reviews <p>0 reviews</p></h1>}
+                    {user.role === 'user' && <h1>My reviews <p>{user && user.review_count} reviews</p></h1>}
                     {user.role === 'business' && <ButtonID_5 text="Your company profile" onClick={handleToCompanyClick}/>}
                 </section>  
+                <UserReviewList/>
             </main>
         </div>
     );

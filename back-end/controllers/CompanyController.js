@@ -6,9 +6,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const getCompany = async(req, res) => {
-    const {userId} = req.body
+    const {user_id} = req.query;
     try {
-        const company = await Company.findOne({userId})
+        const company = await Company.findOne({user_id});
         if (!company) {
             return res.status(404).json({ message: 'Company not found' });
         }
@@ -19,6 +19,19 @@ const getCompany = async(req, res) => {
         obj.cat_name = category.name;
 
         res.status(200).json({company: obj, message: 'Get company data'})
+    }
+    catch (error){
+        console.error("Server error:", error);  
+        res.status(500).json({message: 'Error get company'});
+    }
+}
+
+const getCompanies = async(req, res) => {
+    const {cat_id} = req.query;
+    try {
+        const companies = await Company.find({cat_id});
+
+        res.status(200).json({companies, message: 'Get company data'});
     }
     catch (error){
         console.error("Server error:", error);  
@@ -43,9 +56,11 @@ const updateCompany = async(req, res) => {
 
         if (category !== String(company.cat_id)){
             lastCategory.company_count -= 1;
+            lastCategory.review_count -= company.review_count;
             await lastCategory.save();
 
             futureCategory.company_count += 1;
+            futureCategory.review_count += company.review_count;
             await futureCategory.save();
         }
 
@@ -70,4 +85,4 @@ const updateCompany = async(req, res) => {
     }
 }
 
-module.exports = {getCompany, updateCompany, upload};
+module.exports = {getCompany, getCompanies, updateCompany, upload};

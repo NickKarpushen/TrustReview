@@ -10,6 +10,7 @@ import CrossImage from '../../assets/icon/cross.png';
 import CloseEye from '../../assets/icon/closeEye.png';
 import Eye from '../../assets/icon/eye.png';
 import { SignUpBusiness } from '../../api/users';
+import { GetCategories } from '../../api/categories';
 
 
 const SignUpBusinessPage = () => {
@@ -35,9 +36,8 @@ const SignUpBusinessPage = () => {
     useEffect (() => {
         const fetchCategory = async() =>{
             try{
-                const res = await axios.get('http://localhost:4000/api/categories');
-                console.log(res.data)
-                setCategories(res.data)
+                const res = await GetCategories();
+                setCategories(res)
             }catch(error){
                 console.log(error)
             }

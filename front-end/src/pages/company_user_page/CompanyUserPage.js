@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate } from "react-router-dom";
 import HeaderSmall from '../../components/header_small/HeaderSmall';
-import styles from './CompanyPage.module.scss';
+import styles from './CompanyUserPage.module.scss';
 import ButtonID_5 from '../../components/buttons/button_id_5/ButtonID_5';
 import RatingCount from '../../components/rating_count/RatingCount';
 import Logo from '../../assets/image/logo.png';
 import Phone from '../../assets/icon/phone.png';
 import Employees from '../../assets/icon/employees.png';
 import Post from '../../assets/icon/post.png';
-import axios from 'axios';
+import { useCompany } from '../../contexts/CompanyContext';
 
-const CompanyPage = (props) => {
-
-    const location = useLocation();
+const CompanyUserPage = (props) => {
+    const { company } = useCompany();
     const navigate = useNavigate();
-
-    const {company} = location.state;
-    const [category, setCategory] = useState()
-
-    useEffect (() => {
-        const fetchCategory = async() =>{
-            try{
-                const res = await axios ('http://localhost:4000/api/category', {
-                    params: {
-                        cat_id: company.cat_id
-                    }
-                })
-                setCategory(res.data)
-            }catch (error){
-                console.log(error);
-            }
-        }
-        fetchCategory();
-    }, []);
-
-    const handleReviewClick = () => {
-        navigate('/company/review', {state: {company}})
-    }
+    
+    const handleToEditClick = () => {
+        navigate('company_edit');
+    } 
 
     return (
         <div className={styles.conteiner}>
@@ -76,7 +56,7 @@ const CompanyPage = (props) => {
                         </>
                     }
                     <section className={styles.review}>
-                        <ButtonID_5 text="Write review" onClick={handleReviewClick}/>
+                        <ButtonID_5 text="Edit Company" onClick={handleToEditClick}/>
                     </section> 
                 </div>
                 <div className={styles.main__leftCol}>
@@ -106,7 +86,7 @@ const CompanyPage = (props) => {
                             }
                             <h1>Category</h1>
                             <div className={styles.contact__dataBar}> 
-                                <h3>{category && category.name}</h3>
+                                <h3>{company && company.cat_name}</h3>
                             </div>
                         </div>
                     </section>
@@ -116,4 +96,4 @@ const CompanyPage = (props) => {
     );
 }
 
-export default CompanyPage;
+export default CompanyUserPage;

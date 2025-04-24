@@ -33,4 +33,17 @@ const getCategories = async(req, res) => {
     }
 }
 
-module.exports = {createCategory, getCategories};
+const getCategory = async(req, res) => {
+    const {cat_id} = req.query;
+    try {
+        const category = await Category.findById(cat_id);
+        res.status(200).json(category)
+    }
+    catch (error){
+        console.error("Server error:", error);  
+        res.status(500).json({message: 'Error get category'});
+    }
+}
+
+
+module.exports = {createCategory, getCategories, getCategory};

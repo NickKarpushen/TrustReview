@@ -32,3 +32,23 @@ export const UpdateCompany = async(file, company,
         throw error.response ? error.response : { message: error.message };
     }
 }
+
+export const GetUserCompany = async(user_id) => {
+    if (!sessionStorage.getItem("token")){
+        return null;
+    }
+    try{
+        const res = await axios.get('/company',{ 
+            params: {
+                user_id: user_id
+            },
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `${sessionStorage.getItem("token")}`
+            }
+        });
+        return res.data;
+    }catch (error){
+        throw error.response ? error.response : { message: error.message };
+    }
+}

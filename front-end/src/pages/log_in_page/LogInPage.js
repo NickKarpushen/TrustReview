@@ -37,7 +37,7 @@ const LogInPage = () => {
     }
     
     const handleBackClick = () =>{
-        navigate("/")
+        navigate(-1)
     }
 
     const handleToSingUpClick = () =>{

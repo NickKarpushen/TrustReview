@@ -8,9 +8,14 @@ import SignUpBusinessPage from './pages/sing_up_business_page/SignUpBusinessPage
 import ProfileUserPage from './pages/profile_user_page/PofileUserPage';
 import UserEdit from './components/user_edit/UserEdit';
 import CompanyPage from './pages/company_page/CompanyPage';
+import CompanyUserPage from './pages/company_user_page/CompanyUserPage';
 import CompanyEdit from './components/company_edit/CompanyEdit';
+import CategoryPage from './pages/category_page/CategoryPage';
+import ReviewForm from './components/review_form/ReviewForm';
+import ReviewEdit from './components/review_edit/ReviewEdit';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { CompanyProvider } from './contexts/CompanyContext';
+import { UserReviewsProvider } from './contexts/UserReviewsContext';
 import { useUser } from './contexts/UserContext';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -35,12 +40,17 @@ function App() {
           <Route path="/sign_up" element={<SignUpPage />} />
           <Route path="/sign_up_business" element={<SignUpBusinessPage/>} />
           <Route path="/log_in" element={<LogInPage/>}/>
-          <Route path="/profile_user/*" element={user ? <ProfileUserPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}>
+          <Route path="/profile_user/*" element={<UserReviewsProvider> {user ? <ProfileUserPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}</UserReviewsProvider>}>
             <Route path='user_edit' element={<UserEdit/>}/>
+            <Route path='review_edit' element={<ReviewEdit/>}/>
           </Route>
-            <Route path="/my_company/*" element={<CompanyProvider> {user && user.role === 'business' ? <CompanyPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}</CompanyProvider>}>
-              <Route path='company_edit' element={<CompanyEdit/>}/>
-            </Route>
+          <Route path="/my_company/*" element={<CompanyProvider> {user && user.role === 'business' ? <CompanyUserPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}</CompanyProvider>}>
+            <Route path='company_edit' element={<CompanyEdit/>}/>
+          </Route>
+          <Route path='/company/*' element={<CompanyPage function={handleMenuClick} isState={!isMenu}/>}>
+            <Route path='review' element={user ? <ReviewForm/> : <Navigate to="/log_in" replace />}/>
+          </Route>
+          <Route path ='/category' element={<CategoryPage function={handleMenuClick} isState={!isMenu}/>}/>
           <Route path="*" element={<NotFoundPage404 />}/>
         </Routes>
     </div>

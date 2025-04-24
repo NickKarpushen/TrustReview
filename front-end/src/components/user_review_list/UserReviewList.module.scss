@@ -1,0 +1,99 @@
+.list{
+    margin-top: 20px;
+}
+
+.item{
+    width: 70%;
+    height: auto;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border: 2px solid rgb(222, 225, 230);
+    border-radius: 16px;
+    
+    &__company{
+        display: flex;
+        margin-bottom: 10px;
+        justify-content: space-between;
+
+        div{
+            display: flex;
+        }
+    }
+
+    &__companyData{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-left: 10px;
+
+        h3{
+            font-size: 24px;
+        }
+
+        p{
+            font-size: 14px;
+        }
+    }
+
+    &__review{
+        width: auto;
+        height: auto;
+        padding: 20px;
+        margin-left: 50px;
+
+        border: 2px solid rgb(222, 225, 230);
+        border-radius: 16px;
+
+        hr{
+            margin-top: 12px;
+            width: 90%;
+            height: 2px;
+            border: none;
+            background-color: rgb(189, 193, 202);
+        }
+    }
+
+    &__userData{
+        display: flex;
+
+        h3{
+            font-size: 20px;
+        }
+
+        p{
+            margin-left: 15px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+    }
+
+    &__body{
+
+        margin-top: 10px;
+        width: 90%;
+
+        h1{
+            font-size: 20px;
+        }
+
+        h3{
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: 400;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+    }
+
+    &__rating{
+        margin-top: 10px;
+    }
+
+    &__img{
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        border-radius: 30px;
+    }
+}

@@ -27,7 +27,6 @@ const Header = (props) => {
         user: [
             { text: 'Main', img: Home, onClick: () => navigate('/') },
             { text: 'Profile', img: User, onClick: () => navigate('/profile_user') },
-            { text: 'My Review', img: BackArrow},
             { text: 'Categories', img: Catalog},
             { text: 'Exit', img: Exit, onClick: () => {handleExitClick()}},
         ],

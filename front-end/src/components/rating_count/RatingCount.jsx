@@ -5,15 +5,15 @@ import SemiStar from '../../assets/image/semi_star.png';
 import FillStar from '../../assets/image/fill_star.png';
 
 
-const RatingCount = ({rating}) => {
+const RatingCount = ({rating, size}) => {
 
     const faStar = (i) =>{
         if ((rating) >= i + 1){
-            return <img src={VoidStar} width="40px" height="40px"/>
+            return <img src={VoidStar} width={size} height={size}/>
         } else if ((rating) >= i + 0.5){
-            return <img src={SemiStar} width="40px" height="40px"/>
+            return <img src={SemiStar} width={size} height={size}/>
         }
-        else return <img src={FillStar} width="40px" height="40px"/>
+        else return <img src={FillStar} width={size} height={size}/>
     }
 
     return(
