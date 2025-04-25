@@ -1,4 +1,5 @@
 const db = require('mongoose');
+const Like = require('./Like');
 
 const reviewSchema = new db.Schema({
     title: {type: String, default: '', maxlength: 80},
@@ -15,6 +16,12 @@ const reviewSchema = new db.Schema({
     replies_count: {type: Number, default: null},
     createdAt: {type: Date, default: Date.now}
 })
+
+reviewSchema.post('findOneAndDelete', async function(doc) {
+    if (doc) {
+        await Like.deleteMany({ review_id: doc._id });
+    }
+});
 
 const Review = db.model('Review', reviewSchema);
 module.exports = Review;

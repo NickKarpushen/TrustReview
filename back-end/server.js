@@ -4,7 +4,8 @@ const cors = require('cors');
 const UserRouter = require('./routes/UserRoutes');
 const CategoryRoutes = require('./routes/CategoryRoutes');
 const CompanyRoutes = require('./routes/CompanyRoutes');
-const ReviewRoutes =require('./routes/ReviewRoutes')
+const ReviewRoutes =require('./routes/ReviewRoutes');
+const LikeRoutes = require ('./routes/LikeRoutes');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use('/api', UserRouter);
 app.use('/api', CategoryRoutes);
 app.use('/api', CompanyRoutes);
 app.use('/api', ReviewRoutes);
+app.use('/api', LikeRoutes);
 
 app.get ('/', (req, res) =>{
     res.status(200).json({message: "Hello world"})

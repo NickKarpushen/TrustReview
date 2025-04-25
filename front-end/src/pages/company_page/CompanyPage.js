@@ -9,6 +9,7 @@ import Phone from '../../assets/icon/phone.png';
 import Employees from '../../assets/icon/employees.png';
 import Post from '../../assets/icon/post.png';
 import axios from 'axios';
+import ReviewList from '../../components/review_list/ReviewList';
 
 const CompanyPage = (props) => {
 
@@ -77,7 +78,8 @@ const CompanyPage = (props) => {
                     }
                     <section className={styles.review}>
                         <ButtonID_5 text="Write review" onClick={handleReviewClick}/>
-                    </section> 
+                    </section>
+                    <ReviewList item={company._id}/>
                 </div>
                 <div className={styles.main__leftCol}>
                     {company && company.website_link &&

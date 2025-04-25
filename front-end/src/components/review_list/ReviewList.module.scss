@@ -3,7 +3,7 @@
 }
 
 .item{
-    width: 70%;
+    width: 95%;
     height: auto;
     padding: 20px;
     margin-bottom: 20px;
@@ -36,36 +36,31 @@
         }
     }
 
-    &__review{
-        width: auto;
-        height: auto;
-        padding: 20px;
-        margin-left: 50px;
-
-        border: 2px solid rgb(222, 225, 230);
-        border-radius: 16px;
-
-        hr{
-            margin-top: 12px;
-            width: 90%;
-            height: 2px;
-            border: none;
-            background-color: rgb(189, 193, 202);
-        }
-    }
-
     &__userData{
         display: flex;
+        margin-bottom: 10px;
 
         h3{
             font-size: 20px;
+            display: inline-block;
+        }
+
+        h4{
+            line-height: 24px;
+            font-size: 16px;
+            font-weight: 400;
         }
 
         p{
             margin-left: 15px;
             font-size: 14px;
             line-height: 24px;
+            display: inline-block;
         }
+    }
+
+    &__userBar{
+        margin-left: 10px;
     }
 
     &__body{
@@ -86,8 +81,10 @@
         }
     }
 
-    &__rating{
+    &__nav{
         margin-top: 10px;
+        display: flex;
+        gap: 40px;
     }
 
     &__img{
@@ -95,5 +92,16 @@
         justify-content: center;
         margin: 20px 0;
         border-radius: 30px;
+    }
+
+    &__buttonBar{
+        display: flex;
+        align-items: center;
+
+        p{
+            font-size: 16px;
+            color: rgb(23, 26, 31);
+            margin-left: 5px;
+        }
     }
 }

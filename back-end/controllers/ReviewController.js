@@ -2,6 +2,7 @@ const Review = require('../models/Review');
 const Company = require('../models/Company');
 const User = require('../models/User');
 const Category = require('../models/Category');
+const Like = require('../models/Like');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -109,6 +110,38 @@ const getUserReviews = async(req, res) => {
     }
 }
 
+const getReviews = async(req, res) => {
+    try {
+        const { company_id, user_id } = req.query;
+
+        const reviews = await Review.find({ company_id }).sort({createdAt: -1});
+        const newReviews = [];
+
+        for (const review of reviews) {
+            const user = await User.findById(review.user_id).lean();
+            const obj = review.toObject();
+
+            const likeExists = await Like.findOne({
+                user_id: user_id,
+                review_id: review._id
+            });
+
+            obj.user_name = user.name;
+            obj.user_surname = user.surname;
+            obj.user_email = user.email;
+            obj.user_avatar = user?.avatar;
+            obj.likeExists = likeExists ? true : false;
+
+            newReviews.push(obj);
+        }
+
+        res.status(200).json({ newReviews, message: "Get reviews successfully" });
+
+    } catch (error){
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 const updateReview = async(req, res) =>{
     try{
         const {title, text, review_id} = req.body;
@@ -135,4 +168,4 @@ const updateReview = async(req, res) =>{
     }
 }
 
-module.exports = {createReview, deleteReview, getUserReviews, updateReview, upload};
+module.exports = {createReview, deleteReview, getUserReviews, getReviews, updateReview, upload};

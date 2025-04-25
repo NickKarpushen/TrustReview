@@ -9,6 +9,8 @@ router.delete('/review', UserController.authMiddleware, ReviewController.deleteR
 
 router.get('/user_reviews', UserController.authMiddleware, ReviewController.getUserReviews);
 
+router.get('/reviews', ReviewController.getReviews);
+
 router.patch('/review', UserController.authMiddleware, ReviewController.upload.single('image'), ReviewController.updateReview)
 
 module.exports = router;

@@ -21,6 +21,20 @@ export const GetUserReviews = async(user_id) => {
     }
 }
 
+export const GetReviews = async(company_id, user_id) => {
+    try{
+        const res = await axios.get('/reviews',{
+            params: {
+                company_id: company_id,
+                user_id: user_id
+            },
+        })
+        return(res.data.newReviews);
+    }catch (error){
+        throw error.response ? error.response : { message: error.message };
+    }
+}
+
 export const ReviewCreate = async(file, title, text, rating, user_id, company_id) => {
     try{
         const formData = new FormData();

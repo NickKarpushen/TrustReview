@@ -17,7 +17,6 @@ const createCategory = async(req, res) => {
         res.status(201).json({message: "Category created successfully"});
     }
     catch (error){
-        console.error("Server error:", error);  
         res.status(500).json({message: 'Error authenticating user'});
     }
 }
@@ -28,7 +27,6 @@ const getCategories = async(req, res) => {
         res.status(200).json(categories)
     }
     catch (error){
-        console.error("Server error:", error);  
         res.status(500).json({message: 'Error get categories'});
     }
 }
@@ -40,7 +38,6 @@ const getCategory = async(req, res) => {
         res.status(200).json(category)
     }
     catch (error){
-        console.error("Server error:", error);  
         res.status(500).json({message: 'Error get category'});
     }
 }

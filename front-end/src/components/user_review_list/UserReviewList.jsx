@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import styles from './UserReviewList.module.scss';
 import RatingCount from "../rating_count/RatingCount";
-import { GetUserReviews} from "../../api/review";
 import { useUser } from "../../contexts/UserContext";
 import { useUserReviews } from "../../contexts/UserReviewsContext";
 import Logo from '../../assets/image/logo.png';
