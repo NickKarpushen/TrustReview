@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from "react";
 import styles from './ReviewList.module.scss';
 import RatingCount from "../rating_count/RatingCount";
-import ButtonID_2 from "../buttons/button_id_2/ButtonID_2"
+import ButtonID_2 from "../buttons/button_id_2/ButtonID_2";
+import ButtonID_1 from "../buttons/button_id_1/ButtonID_1";
+import TextareaID_1 from "../textarea/textarea_id_1/TextareaID_1";
 import { GetReviews} from "../../api/review";
 import Avatar from "../../assets/image/avatar.png";
 import LikeDisactive from "../../assets/icon/like_disactive.png";
 import LikeActive from "../../assets/icon/like_active.png";
+import CommentDisactive from "../../assets/icon/comment_disactive.png";
+import CommentActive from "../../assets/icon/comment_active.png"
 import { useNavigate } from "react-router-dom";
 import {useUser} from "../../contexts/UserContext";
 import axios from "axios";
@@ -13,6 +17,10 @@ import axios from "axios";
 const ReviewList = (props) =>{
 
     const [reviews, setReview] = useState([]);
+    const [replies, setReplies] = useState([]);
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
+    const [selectedReviewId_2, setSelectedReviewId_2] = useState(null);
+    const [text, setText] = useState(null)
 
     const navigate = useNavigate();
     const {user} = useUser();
@@ -25,9 +33,20 @@ const ReviewList = (props) =>{
         try{
             const res = await GetReviews(props.item, user && user._id);
             setReview(res);
-            console.log(res);
         }catch (error){
             console.log(error);
+        }
+    }
+
+    const fetchGetReplies = async(review_id) => {
+        try{
+            const res = await axios.get('http://localhost:4000/api/replies',{ 
+                params: { parent_id: review_id },
+            });
+            setReplies(res.data.newReplies);
+        }catch(error){
+            console.log(error);
+            setReplies(null);
         }
     }
 
@@ -42,8 +61,6 @@ const ReviewList = (props) =>{
                         Authorization: `${sessionStorage.getItem("token")}`
                     }
                 });
-
-                console.log(res);
                 fetchGetReview();
             }
             catch (error){
@@ -57,8 +74,6 @@ const ReviewList = (props) =>{
                         Authorization: `${sessionStorage.getItem("token")}`
                     }
                 });
-
-                console.log(res);
                 fetchGetReview();
             }
             catch (error){
@@ -66,6 +81,44 @@ const ReviewList = (props) =>{
             }
         }
     }
+
+    const handleCreatedReplyCLick = async(review_id) => {
+        try{
+            const res = await axios.post('http://localhost:4000/api/reply', {
+                text: text,
+                user_id: user._id,
+                company_id: props.item,
+                parent_id: review_id
+            }, {
+                headers: {
+                    Authorization: `${sessionStorage.getItem("token")}`
+                }
+            })
+            await fetchGetReview();
+            await fetchGetReplies(review_id);
+            setSelectedReviewId(null);
+            setText(null);
+        }catch (error) {
+            console.log(error)
+        }
+    };
+
+    const handleReplyClick = (reviewId) => {
+        if (selectedReviewId === reviewId) {
+            setSelectedReviewId(null);
+        } else {
+            setSelectedReviewId(reviewId);
+        }
+    };
+
+    const handleGetRepliesClick = (reviewId, replies_count) => {
+        if (selectedReviewId_2 === reviewId) {
+            setSelectedReviewId_2(null);
+        } else if (replies_count !== null || 0) {
+            fetchGetReplies(reviewId);
+            setSelectedReviewId_2(reviewId);
+        }
+    };
 
     const formattedDate = (value) =>{
         const formattedDate = new Date(value).toLocaleDateString('uk-UA', {
@@ -76,26 +129,40 @@ const ReviewList = (props) =>{
         return <>{formattedDate}</>
     }
 
+    const formattedText = (value) =>{
+        if (value == null) return
+
+        let count = value.toString()
+
+        if (value >= 1000){
+            count = `${(value / 1000).toFixed(1)}K`
+        }
+
+        return <>{count}</>
+    }
+
     return (
         <section className={styles.list}>
             {reviews.map((review) => (
                 <div className={styles.item}>
                     <div className={styles.item__userData}>
-                        <div>
-                            {review.user_avatar.data ? (
-                                <img
-                                    src={`data:${review.user_avatar.contentType};base64,${review.user_avatar.data}`}
-                                    alt="User Avatar"
-                                    style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
-                                />
-                                ) : (
-                                    <img src={Avatar} width='150px' height='150px'/>
-                                )
-                            }
-                        </div>
-                        <div className={styles.item__userBar}>
-                            <h3>{review && review.user_name} {review && review.user_surname}</h3><p>{formattedDate(review.createdAt)}</p>
-                            <h4>{review && review.user_email}</h4>
+                        <div className={styles.item__userFlex}>
+                            <div>
+                                {review.user_avatar.data ? (
+                                    <img
+                                        src={`data:${review.user_avatar.contentType};base64,${review.user_avatar.data}`}
+                                        alt="User Avatar"
+                                        style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
+                                    />
+                                    ) : (
+                                        <img src={Avatar} width='150px' height='150px'/>
+                                    )
+                                }
+                            </div>
+                            <div className={styles.item__userBar}>
+                                <h3>{review && review.user_name} {review && review.user_surname}</h3><p>{formattedDate(review.createdAt)}</p>
+                                <h4>{review && review.user_email}</h4>
+                            </div>
                         </div>
                         <RatingCount rating={review.rating} size={30}/>
                     </div>
@@ -117,9 +184,74 @@ const ReviewList = (props) =>{
                     <div className={styles.item__nav}>
                         <div className={styles.item__buttonBar}>
                             <ButtonID_2 src={review.likeExists ? LikeActive : LikeDisactive} size={35} width={28} onClick={() => handleLikeClick(review._id, review.likeExists)}/>
-                            <p>{review.likes_count}</p>
+                            <p>{formattedText(review.likes_count)}</p>
+                        </div>
+                        <div className={styles.item__buttonBar}>
+                            <ButtonID_2 src={(selectedReviewId_2 === review._id) ? CommentActive : CommentDisactive} size={35} width={24} onClick={() => handleGetRepliesClick(review._id, review.replies_count)}/>
+                            <p>{formattedText(review.replies_count)}</p>
+                            <ButtonID_1 text = "New reply" className = "fill" function={() => handleReplyClick(review._id)}/>
                         </div>
                     </div>
+                    {user && (selectedReviewId === review._id) && 
+                    <><div className={styles.item__userDataReply}>
+                        <div className={styles.item__userFlex}>
+                            <div>
+                                {user.avatar.data ? (
+                                    <img
+                                        src={`data:${user.avatar.contentType};base64,${user.avatar.data}`}
+                                        alt="User Avatar"
+                                        style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
+                                    />
+                                    ) : (
+                                        <img src={Avatar} width='150px' height='150px'/>
+                                    )
+                                }
+                            </div>
+                            <div className={styles.item__userBar}>
+                                <h3>{user && user.name} {user && user.surname}</h3>
+                                <h4>{user && user.email}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <TextareaID_1 placeholder="Text" valua={text} setState={setText}/>
+                    </div>
+                    <div className={styles.item__replies}>
+                        <ButtonID_1 text = "Reply" className = "fill" function={() => handleCreatedReplyCLick(review._id)}/>
+                    </div></>
+                    }
+                    {selectedReviewId_2 === review._id && (
+                        <>
+                        {replies.map((reply) => (
+                            <div className={styles.item}>
+                                <div className={styles.item__userData}>
+                                    <div className={styles.item__userFlex}>
+                                        <div>
+                                        {reply.user_avatar.data ? (
+                                            <img
+                                                src={`data:${reply.user_avatar.contentType};base64,${reply.user_avatar.data}`}
+                                                alt="User Avatar"
+                                                style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
+                                            />
+                                        ) : (
+                                            <img src={Avatar} width='150px' height='150px'/>
+                                        )
+                                        }
+                                        </div>
+                                        <div className={styles.item__userBar}>
+                                            <h3>{reply && reply.user_name} {reply && reply.user_surname}</h3><p>{formattedDate(reply.createdAt)}</p>
+                                            <h4>{reply && reply.user_email}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div className={styles.item__replyBody}>
+                                    <h3>{reply.text}</h3> 
+                                </div>
+                            </div>
+                        ))}
+                        </>
+                    )}
                 </div>
             ))}
         </section>

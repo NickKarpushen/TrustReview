@@ -89,7 +89,10 @@ const getUserReviews = async(req, res) => {
     try {
         const { user_id } = req.query;
 
-        const reviews = await Review.find({ user_id }).sort({createdAt: -1});
+        const reviews = await Review.find({ 
+            user_id, 
+            parent_id: null 
+        }).sort({ createdAt: -1 });
         const newReviews = [];
 
         for (const review of reviews) {
@@ -114,7 +117,11 @@ const getReviews = async(req, res) => {
     try {
         const { company_id, user_id } = req.query;
 
-        const reviews = await Review.find({ company_id }).sort({createdAt: -1});
+        const reviews = await Review.find({ 
+            company_id, 
+            parent_id: null 
+        }).sort({ createdAt: -1 });
+        
         const newReviews = [];
 
         for (const review of reviews) {
@@ -168,4 +175,66 @@ const updateReview = async(req, res) =>{
     }
 }
 
-module.exports = {createReview, deleteReview, getUserReviews, getReviews, updateReview, upload};
+const createReply = async(req, res) => {
+    try {
+
+        let {text, user_id, company_id, parent_id} = req.body;
+
+        if (text === null || text === '') return res.status(404).json({message: 'Text is empty'}) 
+
+        rating = 0;
+
+        const review = await new Review({
+            text: text,
+            rating: rating,
+            user_id: user_id,
+            company_id: company_id,
+            parent_id: parent_id
+        });
+
+        const parentReview = await Review.findById(parent_id);
+
+        parentReview.replies_count += 1;
+
+        await review.save();
+        await parentReview.save();
+
+        res.status(200).json({message: 'Reply created successfully'})
+    }
+    catch (error){
+        console.error("Server error:", error);  
+        res.status(500).json({message: 'Error server'});
+    }
+}
+
+const getReplies = async(req, res) => {
+    try {
+        const { parent_id } = req.query;
+
+        const replies = await Review.find({ 
+            parent_id: parent_id 
+        }).sort({ createdAt: -1 });
+        
+        const newReplies = [];
+
+        for (const reply of replies) {
+            const user = await User.findById(reply.user_id).lean();
+            const obj = reply.toObject();
+
+            obj.user_name = user.name;
+            obj.user_surname = user.surname;
+            obj.user_email = user.email;
+            obj.user_avatar = user?.avatar;
+            obj.user_id = user?._id;
+
+            newReplies.push(obj);
+        }
+
+        res.status(200).json({ newReplies, message: "Get replies successfully" });
+
+    } catch (error){
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = {createReview, deleteReview, getUserReviews, getReviews, updateReview, createReply, getReplies, upload};

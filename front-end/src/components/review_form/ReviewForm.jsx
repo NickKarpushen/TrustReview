@@ -12,7 +12,7 @@ import TextareaID_1 from '../../components/textarea/textarea_id_1/TextareaID_1';
 import RatingSet from "../rating_set/RatingSet";
 import { ReviewCreate } from "../../api/review";
 
-const UserEdit = () => {
+const ReviewForm = () => {
 
     const {user, updateUser} = useUser();
     const navigate = useNavigate();
@@ -96,4 +96,4 @@ const UserEdit = () => {
     );
 }
 
-export default UserEdit;
+export default ReviewForm;

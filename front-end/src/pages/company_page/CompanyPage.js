@@ -39,6 +39,10 @@ const CompanyPage = (props) => {
         navigate('/company/review', {state: {company}})
     }
 
+    if (!company) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={styles.conteiner}>
             <Outlet/>

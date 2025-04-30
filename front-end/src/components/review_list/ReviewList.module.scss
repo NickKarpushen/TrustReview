@@ -5,7 +5,7 @@
 .item{
     width: 95%;
     height: auto;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
     margin-bottom: 20px;
 
     border: 2px solid rgb(222, 225, 230);
@@ -38,6 +38,7 @@
 
     &__userData{
         display: flex;
+        justify-content: space-between;
         margin-bottom: 10px;
 
         h3{
@@ -59,6 +60,28 @@
         }
     }
 
+    &__userDataReply{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        margin-top: 20px;
+
+        h3{
+            font-size: 20px;
+            display: inline-block;
+        }
+
+        h4{
+            line-height: 24px;
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+
+    &__userFlex{
+        display: flex;
+    }
+
     &__userBar{
         margin-left: 10px;
     }
@@ -73,6 +96,7 @@
         }
 
         h3{
+            white-space: pre-line;
             margin-top: 10px;
             font-size: 20px;
             font-weight: 400;
@@ -81,10 +105,24 @@
         }
     }
 
+    &__replyBody{
+        margin: 10px 0 20px 0;
+        width: 90%;
+
+        h3{
+            white-space: pre-line;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 400;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+    }
+
     &__nav{
-        margin-top: 10px;
+        margin: 10px 0;
         display: flex;
-        gap: 40px;
+        gap: 100px;
     }
 
     &__img{
@@ -97,11 +135,19 @@
     &__buttonBar{
         display: flex;
         align-items: center;
+        min-width: 75px;
+        max-width: auto;
+        gap: 10px;
 
         p{
             font-size: 16px;
             color: rgb(23, 26, 31);
-            margin-left: 5px;
         }
+    }
+
+    &__replies{
+        margin: 10px 0;
+        display: flex;
+        justify-content: end;
     }
 }

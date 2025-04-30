@@ -20,6 +20,7 @@ const reviewSchema = new db.Schema({
 reviewSchema.post('findOneAndDelete', async function(doc) {
     if (doc) {
         await Like.deleteMany({ review_id: doc._id });
+        await Review.deleteMany({ parent_id: doc._id });
     }
 });
 
