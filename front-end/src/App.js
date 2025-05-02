@@ -13,6 +13,7 @@ import CompanyEdit from './components/company_edit/CompanyEdit';
 import CategoryPage from './pages/category_page/CategoryPage';
 import ReviewForm from './components/review_form/ReviewForm';
 import ReviewEdit from './components/review_edit/ReviewEdit';
+import CategoriesPage from './pages/categories_page/CategoriesPage';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { CompanyProvider } from './contexts/CompanyContext';
 import { UserReviewsProvider } from './contexts/UserReviewsContext';
@@ -51,6 +52,7 @@ function App() {
             <Route path='review' element={user ? <ReviewForm/> : <Navigate to="/log_in" replace />}/>
           </Route>
           <Route path ='/category' element={<CategoryPage function={handleMenuClick} isState={!isMenu}/>}/>
+          <Route path='/categories' element={<CategoriesPage function={handleMenuClick} isState={!isMenu}/>}/>
           <Route path="*" element={<NotFoundPage404 />}/>
         </Routes>
     </div>

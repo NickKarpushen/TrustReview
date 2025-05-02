@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import HeaderSmall from '../../components/header_small/HeaderSmall';
 import RatingCount from '../../components/rating_count/RatingCount';
+import Footer from '../../components/footer/Footer';
 import styles from './CategoryPage.module.scss';
 import Logo from '../../assets/image/logo.png';
 import { useUser } from '../../contexts/UserContext';
@@ -76,6 +77,7 @@ const CategoryPage = (props) => {
                     ))}
                 </section>
             </main>
+            <Footer/>
         </div>
     );
 }

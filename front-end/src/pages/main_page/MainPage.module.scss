@@ -21,7 +21,7 @@
 .main{
     animation: start 500ms ease-in-out 0s 1;
     width: 1200px;
-    margin-top: 40px;
+    margin: 40px 0;
 
     &__listCatBar{
         h1{
@@ -33,6 +33,97 @@
         display: flex;
         margin-top: 25px;
     }
+
+    &__row{
+        margin-top: 60px;
+
+        h1{
+            font-size: 40px;
+        }
+    }
+
+    &__rowItem{
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__item{
+        background-color: rgb(243, 244, 246);
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+
+        &:hover{
+            background-color: rgb(232, 233, 235);
+            transition: all 250ms ease-out;
+        }
+    }
+
+    &__dataCompany{
+        margin-left: 20px;
+
+        h1{
+            font-size: 28px;
+        }
+        h3{
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    }
+
+    &__rating{
+        display: flex;
+        align-items: center;
+        margin-top: 40px;
+
+        h2{
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        h2:nth-of-type(2){
+            margin-left: 5px;
+            color: rgb(144, 149, 161);
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+
+    &__getStarted{
+        padding: 150px 0;
+    }
+
+    &__formGetStarted{
+        height: 270px;
+        width: 100%;
+
+        background-color: rgb(44, 89, 72);
+        border-radius: 24px;
+
+        padding: 60px 50px;
+
+        h1{
+            color: white;
+            font-size: 36px;
+        }
+
+        h2{
+            color: white;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    }
+
+    &__formInputBar{
+        margin-top: 30px;
+    }
+}
+
+.footer{
+    width: 100%;
+    height: 250px;
+    background-color: rgb(40, 40, 30);
 }
 
 .button{

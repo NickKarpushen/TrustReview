@@ -12,3 +12,12 @@ export const GetCategories = async() => {
         throw error;
     }
 }
+
+export const GetTopCategories = async() => {
+    try{
+        const res = await axios.get('/top-categories');
+        return (res)
+    }catch(error){
+        throw error;
+    }
+}

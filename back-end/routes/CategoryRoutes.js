@@ -8,4 +8,6 @@ router.get('/categories', CategoryController.getCategories);
 
 router.get('/category', CategoryController.getCategory);
 
+router.get('/top-categories', CategoryController.topCategories);
+
 module.exports = router;

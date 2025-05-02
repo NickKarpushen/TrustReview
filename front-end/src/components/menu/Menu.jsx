@@ -27,14 +27,14 @@ const Header = (props) => {
         user: [
             { text: 'Main', img: Home, onClick: () => navigate('/') },
             { text: 'Profile', img: User, onClick: () => navigate('/profile_user') },
-            { text: 'Categories', img: Catalog},
+            { text: 'Categories', img: Catalog, onClick: () => navigate('/categories')},
             { text: 'Exit', img: Exit, onClick: () => {handleExitClick()}},
         ],
         business: [
             { text: 'Main', img: Home, onClick: () => navigate('/') },
             { text: 'Profile', img: User, onClick: () => navigate('/profile_user')  },
             { text: 'My Company', img: Company, onClick: () => navigate('/my_company') },
-            { text: 'Categories', img: Catalog },
+            { text: 'Categories', img: Catalog, onClick: () => navigate('/categories') },
             { text: 'Exit', img: Exit, onClick: () => {handleExitClick()} }
         ],
         null: [

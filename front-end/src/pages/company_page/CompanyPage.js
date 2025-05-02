@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import HeaderSmall from '../../components/header_small/HeaderSmall';
 import styles from './CompanyPage.module.scss';
 import ButtonID_5 from '../../components/buttons/button_id_5/ButtonID_5';
+import Footer from '../../components/footer/Footer';
 import RatingCount from '../../components/rating_count/RatingCount';
 import Logo from '../../assets/image/logo.png';
 import Phone from '../../assets/icon/phone.png';
@@ -118,6 +119,7 @@ const CompanyPage = (props) => {
                     </section>
                 </div>
             </main>
+            <Footer/>
         </div>
     );
 }

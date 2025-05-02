@@ -1,4 +1,5 @@
 const Category = require('../models/Category')
+const Company = require('../models/Company')
 
 const createCategory = async(req, res) => {
     try {
@@ -42,5 +43,30 @@ const getCategory = async(req, res) => {
     }
 }
 
+const topCategories = async(req, res) => {
+    try{
+        const categories = await Category.find({}).sort({ review_count: -1 }).limit(3).lean();;
 
-module.exports = {createCategory, getCategories, getCategory};
+        const result = [];
+
+        for (const category of categories) {
+            const topCompanies = await Company.find({ cat_id: category._id })
+                .sort({ rating: -1 })
+                .limit(3)
+                .lean();
+
+            if (topCompanies.length > 0) {
+                result.push({
+                    category,
+                    companies: topCompanies
+                });
+            }
+        }
+        res.status(200).json(result)
+    }catch (error){
+        res.status(500).json({message: 'Error get category'});
+    }
+}
+
+
+module.exports = {createCategory, getCategories, getCategory, topCategories};

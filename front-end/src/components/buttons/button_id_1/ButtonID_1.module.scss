@@ -31,3 +31,14 @@
         transition: all 250ms ease-in-out;
     }
 }
+
+.white{
+    border: white solid 2px;
+    background: none;
+    color: white;
+
+    &:hover{
+        background-color: #ffffff33;
+        transition: all 250ms ease-in-out;
+    }
+}
