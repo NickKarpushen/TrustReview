@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate } from "react-router-dom";
-import axios from 'axios';
 import styles from './SignUpBusinessPage.module.scss';
 import InputID_2 from '../../components/inputs/input_id_2/InputID_2';
 import SelectID_1 from '../../components/selects/select_id_1/SelectID_1';
@@ -62,6 +61,10 @@ const SignUpBusinessPage = () => {
         setIsVisible(!isVisible);
     }
 
+    const handleBackClick = () =>{
+        navigate('/')
+    }
+
     const handleToLogInClick = () =>{
         navigate("/log_in");
     }
@@ -69,6 +72,9 @@ const SignUpBusinessPage = () => {
     return (
         <div className={styles.conteiner}>
             <div className={styles.left}>
+                <div className={styles.crossBar}>
+                    <ButtonID_2 src={CrossImage} size={30} width={25} onClick={handleBackClick}/>
+                </div>
                 <div className={styles.form}>
                     <h1>Welcome</h1>
                     <h2>have an account? <a onClick={handleToLogInClick}>Log in</a></h2>
