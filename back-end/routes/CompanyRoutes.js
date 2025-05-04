@@ -9,4 +9,6 @@ router.get('/companies', CompanyController.getCompanies);
 
 router.patch('/company', UserController.authMiddleware,  CompanyController.upload.single('logo'), CompanyController.updateCompany);
 
+router.get('/search_company', CompanyController.searchCompany);
+
 module.exports = router;

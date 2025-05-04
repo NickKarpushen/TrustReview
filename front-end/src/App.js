@@ -18,7 +18,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { CompanyProvider } from './contexts/CompanyContext';
 import { UserReviewsProvider } from './contexts/UserReviewsContext';
 import { useUser } from './contexts/UserContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
 function App() {
@@ -30,6 +30,12 @@ function App() {
   const handleMenuClick = () =>{
     setIsMenu(!isMenu)
   }
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const showMenu = location.pathname !== '/log_in' && location.pathname !== '/sign_up' && location.pathname !== '/sign_up_business';
 

@@ -27,11 +27,26 @@ const getCompany = async(req, res) => {
 }
 
 const getCompanies = async(req, res) => {
-    const {cat_id} = req.query;
+    const { cat_id, min_rating, sort_by = 'date_desc' } = req.query;
     try {
-        const companies = await Company.find({cat_id});
+        let query = { cat_id };
 
-        res.status(200).json({companies, message: 'Get company data'});
+        if (min_rating) {
+            query.rating = { $gte: Number(min_rating) };
+        }
+
+        let sort = {};
+        if (sort_by === 'date_desc') {
+            sort.createdAt = -1;
+        } else if (sort_by === 'date_asc') {
+            sort.createdAt = 1;
+        } else if (sort_by === 'rating') {
+            sort.rating = -1;
+        }
+
+        const companies = await Company.find(query).sort(sort);
+
+        res.status(200).json({ companies, message: 'Get company data' });
     }
     catch (error){
         console.error("Server error:", error);  
@@ -85,4 +100,16 @@ const updateCompany = async(req, res) => {
     }
 }
 
-module.exports = {getCompany, getCompanies, updateCompany, upload};
+const searchCompany = async(req, res) => {
+    try{
+        const {search} = req.query;
+        const companies = await Company.find({
+        company_name: { $regex: search, $options: 'i' }})
+
+        res.status(200).json(companies);
+    }catch (error){
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = {getCompany, getCompanies, updateCompany, searchCompany, upload};

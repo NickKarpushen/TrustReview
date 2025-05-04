@@ -6,7 +6,6 @@
     }
 }
 
-
 .conteiner{
     width: 100%;
     display: flex;
@@ -29,9 +28,28 @@
         }
     }
 
+    &__catNav{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__catBtn{
+        display: flex;
+        gap: 30px;
+    }
+
     &__listCategories{
         display: flex;
         margin-top: 25px;
+
+        overflow: hidden;
+        overflow-x: auto;
+        gap: 20px;
+        scroll-behavior: smooth;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     &__row{
@@ -40,6 +58,11 @@
         h1{
             font-size: 40px;
         }
+    }
+
+    &__rowHeader{
+        display: flex;
+        justify-content: space-between;
     }
 
     &__rowItem{
@@ -130,7 +153,6 @@
     height: 55px;
     background-color: rgba(255, 255, 255, 0);
     padding: 0 25px;
-    margin-right: 20px;
 
     border: 2px solid rgb(222, 225, 230);
     border-radius: 12px;
@@ -138,9 +160,29 @@
     color: rgb(23, 26, 31);
     font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
 
     &:hover{
         background-color: rgba(0, 0, 0, 0.052);
         transition: all 250ms;
     }
+}
+
+.button_2{
+    height: 40px;
+    width: 40px;
+    background: none;
+    border-radius: 50%;
+    border: 3px solid rgb(99, 106, 232);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &:hover{
+        transition: all 250ms ease-out;
+        background-color: rgba(99, 106, 232, 0.222);  
+    }
+
+    
 }

@@ -40,7 +40,7 @@ const Header = (props) => {
         null: [
             { text: 'Main', img: Home, onClick: () => navigate('/') },
             { text: 'Profile', img: User, onClick: () => navigate('/log_in') },
-            { text: 'Categories', img: Catalog}
+            { text: 'Categories', img: Catalog, onClick: () => navigate('/categories')}
         ]
       };
 

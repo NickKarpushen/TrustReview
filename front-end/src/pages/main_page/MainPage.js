@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/header/Header';
 import styles from './MainPage.module.scss';
 import Logo from '../../assets/image/logo.png';
 import RatingCount from '../../components/rating_count/RatingCount';
 import ButtonID_1 from '../../components/buttons/button_id_1/ButtonID_1';
 import Footer from '../../components/footer/Footer';
+import ArrowBack from "../../assets/icon/arrow_back.png";
+import ArrowGo from '../../assets/icon/arrow_go.png';
 import { useUser } from '../../contexts/UserContext';
 import {GetCategories} from '../../api/categories';
 import { GetTopCategories } from '../../api/categories';
@@ -13,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 const MainPage = (props) => {
 
     const {user} = useUser();
+    const sliderRef = useRef(null)
     const [categories, setCategories] = useState([]);
     const [topCategories, setTopCategories] = useState([]);
     const navigate = useNavigate();
@@ -49,6 +52,11 @@ const MainPage = (props) => {
         navigate('/company', {state: {company}});
     }
 
+    const scroll = (direction) => {
+        const amount = 200;
+        sliderRef.current.scrollBy({ left: direction * amount, behavior: "smooth" });
+    };
+    
     const handleToCategoryClick = (category) => {
         navigate ('/category', {state: {category}});
     }
@@ -64,10 +72,20 @@ const MainPage = (props) => {
             </header>
             <main className={styles.main}>
                 <section className={styles.main__listCatBar}>
-                    <div>
-                        <h1>Categories</h1>
+                    <div className={styles.main__catNav}>
+                        <div>
+                            <h1>Categories</h1>
+                        </div>
+                        <div className={styles.main__catBtn}>
+                            <button className={styles.button_2} onClick={() => scroll(-1)}>
+                                <img src={ArrowBack} alt="Опис" width="20"/>
+                            </button>
+                            <button className={styles.button_2} onClick={() => scroll(1)}>
+                                <img src={ArrowGo} alt="Опис" width="20"/>
+                            </button>
+                        </div>
                     </div>
-                    <div className={styles.main__listCategories}>
+                    <div className={styles.main__listCategories} ref={sliderRef}>
                         {categories.map((category) => (
                             <button className={styles.button} onClick={() => handleToCategoryClick(category)}>
                                 {category.name}
@@ -78,7 +96,10 @@ const MainPage = (props) => {
                 <section className={styles.main__listTopCategory}>
                     {topCategories && topCategories.map((topCategory) => (
                         <div className={styles.main__row}>
-                            <h1>Best in {topCategory.category.name}</h1>
+                            <div className={styles.main__rowHeader}>
+                                <h1>Best in {topCategory.category.name}</h1>
+                                <ButtonID_1 text="See more" className = "border" function={() => handleToCategoryClick(topCategory.category)}/>
+                            </div>
                             <div className={styles.main__rowItem}>
                                 {topCategory.companies.map((company) => (
                                     <div className={styles.main__item} onClick={() => handleToCompanyClick(company)}>

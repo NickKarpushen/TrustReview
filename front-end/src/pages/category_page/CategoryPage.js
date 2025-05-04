@@ -16,22 +16,27 @@ const CategoryPage = (props) => {
     const {user} = useUser();
     const {category} = location.state;
     const [companies, setCompanies] = useState([]);
+    const [minRating, setMinRating] = useState('');
+    const [sortBy, setSortBy] = useState('');
 
     useEffect (() => {
-        const fetchGetCompanies = async() => {
-            try{
-                const res = await axios.get('http://localhost:4000/api/companies', {
-                    params: {
-                        cat_id: category._id
-                    }
-                })
-                setCompanies(res.data.companies);
-            }catch (error){
-                console.log(error)
-            }
-        }
         fetchGetCompanies();
-    }, []);
+    }, [minRating, sortBy]);
+
+    const fetchGetCompanies = async() => {
+        try{
+            const res = await axios.get('http://localhost:4000/api/companies', {
+                params: {
+                    cat_id: category._id,
+                    min_rating: minRating,
+                    sort_by: sortBy
+                }
+            })
+            setCompanies(res.data.companies);
+        }catch (error){
+            console.log(error)
+        }
+    }
 
     const handleToCompanyClick = (company) =>{
         company.user_id === (user && user._id) ? 
@@ -49,10 +54,34 @@ const CategoryPage = (props) => {
                 <section className={styles.main__header}>
                     <h1>{category.name} Category</h1>
                 </section>
-                <section>
-
+                <section className={styles.main__filterBar}>
+                    <div className={styles.filters}>
+                        <label className={styles.label}>Rating</label>
+                        {[0, 3, 4, 4.5].map((val) => (
+                            <button
+                                key={val}
+                                onClick={() => setMinRating(val)}
+                                className={minRating === val ? styles.button_active : styles.button}
+                            >
+                                {val === 0 ? 'Any' : `${val}+`}
+                            </button>
+                        ))}
+                    </div>
+                    <div>
+                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={styles.select}>
+                            <option value="">Most Relevant</option>
+                            <option value="date_desc">Newest</option>
+                            <option value="date_asc">Oldest</option>
+                            <option value="rating">Best Rating</option>
+                        </select>
+                    </div>
                 </section>
                 <section className={styles.main__list}>
+                    {companies.length === 0 && 
+                        <div>
+                            <h1>Сould not find the company</h1>
+                        </div>
+                    }
                     {companies.map((company) => (
                         <div className={styles.main__item} onClick={() => handleToCompanyClick(company)}>
                             {company && company.logo.data ? (

@@ -1,4 +1,10 @@
 .App{
     display: flex;
     position: relative;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    scrollbar-width: none;
 }
