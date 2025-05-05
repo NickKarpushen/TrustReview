@@ -82,6 +82,16 @@
         display: flex;
     }
 
+    &__userFlexReply{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &_left{
+            display: flex;
+        }
+    }
+
     &__userBar{
         margin-left: 10px;
     }
@@ -149,5 +159,15 @@
         margin: 10px 0;
         display: flex;
         justify-content: end;
+    }
+
+    &__edit{
+        margin-top: 20px;
+    }
+
+    &__editNav{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
     }
 }

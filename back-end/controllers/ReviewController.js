@@ -202,8 +202,43 @@ const createReply = async(req, res) => {
         res.status(200).json({message: 'Reply created successfully'})
     }
     catch (error){
-        console.error("Server error:", error);  
         res.status(500).json({message: 'Error server'});
+    }
+}
+
+const updateReply = async(req, res) =>{
+    try{
+        const {reply_id, text} = req.body;
+
+        const reply = await Review.findById(reply_id);
+
+        if (text === null || text === '') return res.status(404).json({message: 'Text is empty'})
+            
+        reply.text = text;
+
+        reply.save();
+
+        res.status(200).json({message: 'Reply updated successfully'})
+    }catch (error){
+        res.status(500).json({message: 'Error server'});
+    }
+}
+
+const deleteReply = async(req, res) => {
+    try{
+        const {reply_id} = req.query;
+
+        const reply = await Review.findOneAndDelete( { _id: reply_id} );
+        const review = await Review.findOne( { _id: reply.parent_id} );
+
+        review.replies_count -= 1;
+
+        await review.save();
+
+        res.status(200).json({message: "Review deleted successfully"})
+    }catch (error){
+        console.error("Server error:", error);  
+        res.status(500).json({message: 'Error get company'});
     }
 }
 
@@ -237,4 +272,16 @@ const getReplies = async(req, res) => {
     }
 }
 
-module.exports = {createReview, deleteReview, getUserReviews, getReviews, updateReview, createReply, getReplies, upload};
+module.exports = 
+{
+    createReview, 
+    deleteReview, 
+    getUserReviews, 
+    getReviews, 
+    updateReview, 
+    createReply, 
+    getReplies, 
+    updateReply,
+    deleteReply,
+    upload
+};

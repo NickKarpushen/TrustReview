@@ -17,4 +17,8 @@ router.post('/reply', UserController.authMiddleware, ReviewController.createRepl
 
 router.get('/replies', ReviewController.getReplies);
 
+router.patch('/reply', UserController.authMiddleware, ReviewController.updateReply);
+
+router.delete('/reply', UserController.authMiddleware, ReviewController.deleteReply);
+
 module.exports = router;

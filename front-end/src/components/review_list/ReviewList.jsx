@@ -9,6 +9,7 @@ import Avatar from "../../assets/image/avatar.png";
 import LikeDisactive from "../../assets/icon/like_disactive.png";
 import LikeActive from "../../assets/icon/like_active.png";
 import CommentDisactive from "../../assets/icon/comment_disactive.png";
+import Delete from "../../assets/icon/delete.png"
 import CommentActive from "../../assets/icon/comment_active.png"
 import { useNavigate } from "react-router-dom";
 import {useUser} from "../../contexts/UserContext";
@@ -20,7 +21,9 @@ const ReviewList = (props) =>{
     const [replies, setReplies] = useState([]);
     const [selectedReviewId, setSelectedReviewId] = useState(null);
     const [selectedReviewId_2, setSelectedReviewId_2] = useState(null);
-    const [text, setText] = useState(null)
+    const [selectedEdit, setSelectedEdit] = useState(null);
+    const [text, setText] = useState(null);
+    const [editText, setEditText] = useState('');
 
     const navigate = useNavigate();
     const {user} = useUser();
@@ -39,6 +42,7 @@ const ReviewList = (props) =>{
     }
 
     const fetchGetReplies = async(review_id) => {
+        console.log(review_id)
         try{
             const res = await axios.get('http://localhost:4000/api/replies',{ 
                 params: { parent_id: review_id },
@@ -103,11 +107,54 @@ const ReviewList = (props) =>{
         }
     };
 
+    const handleUpdateReplyCLick = async(reply_id) => {
+        try{
+            const res = await axios.patch('http://localhost:4000/api/reply', {
+                reply_id: reply_id,
+                text: editText,
+            }, {
+                headers: {
+                    Authorization: `${sessionStorage.getItem("token")}`
+                }
+            })
+            setSelectedEdit(null);
+            setEditText(null);
+            await fetchGetReplies(selectedReviewId_2);
+        }catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeleteReplyCLick = async(reply_id) => {
+        try{
+            const res = await axios.delete('http://localhost:4000/api/reply', {
+                params: { reply_id: reply_id},
+                headers: {
+                    Authorization: `${sessionStorage.getItem("token")}`
+                }
+            })
+            await fetchGetReview()
+            await fetchGetReplies(selectedReviewId_2);
+        }catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleReplyClick = (reviewId) => {
         if (selectedReviewId === reviewId) {
             setSelectedReviewId(null);
         } else {
             setSelectedReviewId(reviewId);
+        }
+    };
+
+    const handleEditClick = (replyId, text) => {
+        if (selectedEdit === replyId) {
+            setSelectedEdit(null);
+            setEditText(null);
+        } else {
+            setSelectedEdit(replyId);
+            setEditText(text);
         }
     };
 
@@ -214,7 +261,7 @@ const ReviewList = (props) =>{
                         </div>
                     </div>
                     <div>
-                        <TextareaID_1 placeholder="Text" valua={text} setState={setText}/>
+                        <TextareaID_1 placeholder="Text" value={text} setState={setText}/>
                     </div>
                     <div className={styles.item__replies}>
                         <ButtonID_1 text = "Reply" className = "fill" function={() => handleCreatedReplyCLick(review._id)}/>
@@ -225,28 +272,42 @@ const ReviewList = (props) =>{
                         {replies.map((reply) => (
                             <div className={styles.item}>
                                 <div className={styles.item__userData}>
-                                    <div className={styles.item__userFlex}>
-                                        <div>
-                                        {reply.user_avatar.data ? (
-                                            <img
-                                                src={`data:${reply.user_avatar.contentType};base64,${reply.user_avatar.data}`}
-                                                alt="User Avatar"
-                                                style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
-                                            />
-                                        ) : (
-                                            <img src={Avatar} width='150px' height='150px'/>
-                                        )
-                                        }
+                                    <div className={styles.item__userFlexReply}>
+                                        <div className={styles.item__userFlexReply_left}>
+                                            <div>
+                                            {reply.user_avatar.data ? (
+                                                <img
+                                                    src={`data:${reply.user_avatar.contentType};base64,${reply.user_avatar.data}`}
+                                                    alt="User Avatar"
+                                                    style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
+                                                />
+                                            ) : (
+                                                <img src={Avatar} width='150px' height='150px'/>
+                                            )
+                                            }
+                                            </div>
+                                            <div className={styles.item__userBar}>
+                                                <h3>{reply && reply.user_name} {reply && reply.user_surname}</h3><p>{formattedDate(reply.createdAt)}</p>
+                                                <h4>{reply && reply.user_email}</h4>
+                                            </div>
                                         </div>
-                                        <div className={styles.item__userBar}>
-                                            <h3>{reply && reply.user_name} {reply && reply.user_surname}</h3><p>{formattedDate(reply.createdAt)}</p>
-                                            <h4>{reply && reply.user_email}</h4>
+                                        <div>
+                                            {user && reply.user_id === user._id && <ButtonID_1 text = "Edit Reply" className = "fill" function={() => handleEditClick(reply._id, reply.text)}/>}
                                         </div>
                                     </div>
                                 </div>
                                 <hr/>
                                 <div className={styles.item__replyBody}>
-                                    <h3>{reply.text}</h3> 
+                                    <h3>{reply.text}</h3>
+                                    {selectedEdit === reply._id && 
+                                        <div className={styles.item__edit}>
+                                            <TextareaID_1 placeholder="Text" value={editText} setState={setEditText}/>
+                                            <div className={styles.item__editNav}>
+                                                <ButtonID_2 src={Delete} size={30} width={18} onClick={() => handleDeleteReplyCLick(reply._id)}/>
+                                                <ButtonID_1 text="Save" function={() => handleUpdateReplyCLick(reply._id)}/>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         ))}
