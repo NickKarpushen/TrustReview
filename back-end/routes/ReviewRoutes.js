@@ -21,4 +21,8 @@ router.patch('/reply', UserController.authMiddleware, ReviewController.updateRep
 
 router.delete('/reply', UserController.authMiddleware, ReviewController.deleteReply);
 
+router.get('/unverified_review', UserController.authMiddleware, ReviewController.getUnverifiedReviews);
+
+router.patch('/update_status', UserController.authMiddleware, ReviewController.updateStatusReviews);
+
 module.exports = router;

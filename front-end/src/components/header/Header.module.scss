@@ -74,7 +74,28 @@
         display: flex;
         align-items: center;
     }
+
+    &_left{
+        width: 550px;
+        padding: 10px;
+        z-index: 5;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        position: absolute;
+
+        left: calc(60% - (550px / 2));
+        top: 320px;
+
+        border-radius: 16px;
+        border: 2px solid #bdc1ca;
+
+        background-color: rgb(255, 255, 255);
+    }
 }
+
 
 .menu{
     display: flex;

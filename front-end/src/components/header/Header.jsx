@@ -52,7 +52,7 @@ const Header = (props) => {
 
     return(<>
         {isVisily &&
-            <div className={styles.search}>
+            <div className={props.isState ? styles.search : styles.search_left}>
                 {results.map((company) => (
                     <div className={styles.search__item} onClick={() => handleToConpanyClick(company)}>
                         <div className={styles.search__itemData}>

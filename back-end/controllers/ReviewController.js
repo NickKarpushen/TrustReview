@@ -61,6 +61,7 @@ const createReview= async(req, res) => {
 const deleteReview = async(req, res) => {
     try{
         const {review_id} = req.query;
+        console.log(req.query);
 
         const review = await Review.findOneAndDelete( { _id: review_id} );
         const company = await Company.findOne( { _id: review.company_id} );
@@ -120,7 +121,7 @@ const getReviews = async(req, res) => {
         const reviews = await Review.find({ 
             company_id, 
             parent_id: null 
-        }).sort({ createdAt: -1 });
+        }).sort({ status: -1, createdAt: -1 });
         
         const newReviews = [];
 
@@ -272,6 +273,60 @@ const getReplies = async(req, res) => {
     }
 }
 
+const getUnverifiedReviews = async (req, res) => {
+    try {
+        const { company_id, user_id } = req.query;
+
+        const reviews = await Review.find({ 
+            parent_id: null,
+            status: 0
+        }).sort({ createdAt: -1 });
+        
+        const newReviews = [];
+
+        for (const review of reviews) {
+            const user = await User.findById(review.user_id).lean();
+            const obj = review.toObject();
+
+            const likeExists = await Like.findOne({
+                user_id: user_id,
+                review_id: review._id
+            });
+
+            obj.user_name = user.name;
+            obj.user_surname = user.surname;
+            obj.user_email = user.email;
+            obj.user_avatar = user?.avatar;
+
+            newReviews.push(obj);
+        }
+
+        res.status(200).json({ newReviews, message: "Get unverified reviews successfully" });
+
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+const updateStatusReviews = async (req, res) => {
+    try {
+        const { review_id } = req.body;
+        console.log(req.body);
+
+        const review = await Review.findById(review_id);
+
+        review.status = 1;
+
+        review.save();
+
+        res.status(200).json({ message: "Update status review" });
+
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+
 module.exports = 
 {
     createReview, 
@@ -283,5 +338,7 @@ module.exports =
     getReplies, 
     updateReply,
     deleteReply,
+    getUnverifiedReviews,
+    updateStatusReviews,
     upload
 };

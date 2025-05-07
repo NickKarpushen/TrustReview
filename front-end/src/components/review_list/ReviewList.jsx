@@ -30,11 +30,13 @@ const ReviewList = (props) =>{
 
     useEffect(() => {
         fetchGetReview();
-    }, []);
+        console.log('sadasdsa')
+    }, [props.item]);
 
     const fetchGetReview = async() => {
         try{
             const res = await GetReviews(props.item, user && user._id);
+            console.log(res)
             setReview(res);
         }catch (error){
             console.log(error);
@@ -211,7 +213,10 @@ const ReviewList = (props) =>{
                                 <h4>{review && review.user_email}</h4>
                             </div>
                         </div>
-                        <RatingCount rating={review.rating} size={30}/>
+                        <div className={styles.item__ratingBar}>
+                            <RatingCount rating={review.rating} size={30}/>
+                            {review.status === 0 ? <p>Awaiting verification</p> : <p>verified</p>}
+                        </div>
                     </div>
                     {(review.text !== '' || review.title !== '' || review.image.data) && <hr/>}
                     <div className={styles.item__body}>

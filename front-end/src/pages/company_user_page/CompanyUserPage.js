@@ -8,6 +8,7 @@ import RatingCount from '../../components/rating_count/RatingCount';
 import Logo from '../../assets/image/logo.png';
 import Phone from '../../assets/icon/phone.png';
 import Employees from '../../assets/icon/employees.png';
+import ReviewList from '../../components/review_list/ReviewList';
 import Post from '../../assets/icon/post.png';
 import { useCompany } from '../../contexts/CompanyContext';
 
@@ -58,7 +59,8 @@ const CompanyUserPage = (props) => {
                     }
                     <section className={styles.review}>
                         <ButtonID_5 text="Edit Company" onClick={handleToEditClick}/>
-                    </section> 
+                    </section>
+                    <ReviewList item={company && company._id}/>
                 </div>
                 <div className={styles.main__leftCol}>
                     {company && company.website_link &&

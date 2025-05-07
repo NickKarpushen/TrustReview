@@ -94,7 +94,6 @@ export const UpdateUser = async(file, user, name, surname) => {
             } 
         }
         );
-        console.log(res)
     }catch (error){
         throw error.response ? error.response : { message: error.message };
     }

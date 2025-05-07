@@ -36,7 +36,6 @@ const MainPage = (props) => {
         const fetchTopCategory = async() =>{
                 try{
                     const res = await GetTopCategories();
-                    console.log(res);
                     setTopCategories(res.data)
                 }catch(error){
                     console.log(error)

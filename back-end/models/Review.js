@@ -14,6 +14,7 @@ const reviewSchema = new db.Schema({
     parent_id: { type: db.Schema.Types.ObjectId, ref: 'Review', default: null},
     likes_count: {type: Number, default: null},
     replies_count: {type: Number, default: null},
+    status: {type: Number, default: 0},
     createdAt: {type: Date, default: Date.now}
 })
 

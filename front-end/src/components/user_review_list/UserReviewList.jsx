@@ -71,6 +71,7 @@ const UserReviewList = (props) =>{
                         <hr/>
                         <div className={styles.item__rating}>
                             <RatingCount rating={review.rating} size={30}/>
+                            {review.status === 0 ? <p>Awaiting verification</p> : <p>verified</p>}
                         </div>
                     </div>
                 </div>

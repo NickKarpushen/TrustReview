@@ -14,6 +14,7 @@ import CategoryPage from './pages/category_page/CategoryPage';
 import ReviewForm from './components/review_form/ReviewForm';
 import ReviewEdit from './components/review_edit/ReviewEdit';
 import CategoriesPage from './pages/categories_page/CategoriesPage';
+import ReviewCheckPage from './pages/review_check_page/ReviewCheckPage';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { CompanyProvider } from './contexts/CompanyContext';
 import { UserReviewsProvider } from './contexts/UserReviewsContext';
@@ -59,6 +60,7 @@ function App() {
           </Route>
           <Route path ='/category' element={<CategoryPage function={handleMenuClick} isState={!isMenu}/>}/>
           <Route path='/categories' element={<CategoriesPage function={handleMenuClick} isState={!isMenu}/>}/>
+          <Route path='/review_check' element={user && user.role === 'admin' ? <ReviewCheckPage function={handleMenuClick} isState={!isMenu}/> : <Navigate to="/log_in" replace />}/>
           <Route path="*" element={<NotFoundPage404 />}/>
         </Routes>
     </div>

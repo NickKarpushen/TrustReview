@@ -9,6 +9,7 @@ import BackArrow from "../../assets/icon/back_arrow.png";
 import User from "../../assets/icon/user.png";
 import Exit from '../../assets/icon/exit.png';
 import Catalog from '../../assets/icon/catalog.png';
+import Reviews from '../../assets/icon/reviews.png'
 import Home from '../../assets/icon/home.png';
 import Company from '../../assets/icon/company.png';
 import Avatar from '../../assets/image/avatar.png';
@@ -22,7 +23,11 @@ const Header = (props) => {
 
     const menuItems = {
         admin: [
-          {},
+            {text: 'Main', img: Home, onClick: () => navigate('/')},
+            {text: 'Profile', img: User, onClick: () => navigate('/profile_user')},
+            {text: 'Reviews', img: Reviews, onClick: () => navigate('/review_check')},
+            {text: 'Categories', img: Catalog, onClick: () => navigate('/categories')},
+            {text: 'Exit', img: Exit, onClick: () => {handleExitClick()}}
         ],
         user: [
             { text: 'Main', img: Home, onClick: () => navigate('/') },
