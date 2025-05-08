@@ -190,6 +190,18 @@ const ReviewList = (props) =>{
         return <>{count}</>
     }
 
+    const handleEditTextChange = (value) => {
+        if (value.length <= 320){
+            setEditText(value);
+        }
+    };
+
+    const handleTextChange = (value) => {
+        if (value.length <= 320){
+            setText(value);
+        }
+    };
+
     return (
         <section className={styles.list}>
             {reviews.map((review) => (
@@ -266,9 +278,10 @@ const ReviewList = (props) =>{
                         </div>
                     </div>
                     <div>
-                        <TextareaID_1 placeholder="Text" value={text} setState={setText}/>
+                        <TextareaID_1 placeholder="Text" value={text} setState={handleTextChange}/>
                     </div>
                     <div className={styles.item__replies}>
+                        {text && <p>{text.length}/320</p>}
                         <ButtonID_1 text = "Reply" className = "fill" function={() => handleCreatedReplyCLick(review._id)}/>
                     </div></>
                     }
@@ -306,9 +319,10 @@ const ReviewList = (props) =>{
                                     <h3>{reply.text}</h3>
                                     {selectedEdit === reply._id && 
                                         <div className={styles.item__edit}>
-                                            <TextareaID_1 placeholder="Text" value={editText} setState={setEditText}/>
+                                            <TextareaID_1 placeholder="Text" value={editText} setState={handleEditTextChange}/>
                                             <div className={styles.item__editNav}>
                                                 <ButtonID_2 src={Delete} size={30} width={18} onClick={() => handleDeleteReplyCLick(reply._id)}/>
+                                                {editText && <p>{editText.length}/320</p>}
                                                 <ButtonID_1 text="Save" function={() => handleUpdateReplyCLick(reply._id)}/>
                                             </div>
                                         </div>

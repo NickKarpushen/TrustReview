@@ -50,6 +50,18 @@ const ReviewForm = () => {
         return <div>Loading</div>
     }
 
+    const handleTitleChange = (value) => {
+        if (value.length <= 80){
+            setTitle(value);
+        }
+    };
+
+    const handleTextChange = (value) => {
+        if (value.length <= 320){
+            setText(value);
+        }
+    };
+
     return (
         <div className={styles.conteiner}>
             <div className={styles.background} onClick={handleBackClick}></div>
@@ -78,16 +90,20 @@ const ReviewForm = () => {
                         </div>
                         <div className={styles.form__text}>
                             <div className={styles.form__inputBar}>
-                                <InputID_2 placeholder="Title" valua={title} setState={setTitle}/>
+                                <InputID_2 placeholder="Title" valua={title} setState={handleTitleChange}/>
+                                {title && <p>{title.length}/80</p>}
                             </div>
                             <div className={styles.form__inputBar}>
-                                <TextareaID_1 placeholder="Text" valua={text} setState={setText}/>
+                                <TextareaID_1 placeholder="Text" valua={text} setState={handleTextChange}/>
                             </div>
                         </div>
                         <div className={styles.form__add}>
-                            <RatingSet size={28} setState={setRating}/>
-                            <ButtonID_2 src={Photo} size={30} width={18} onClick={handleImgButtonClick}/>
-                            <input type="file" id="img-input" onChange={handleChange} accept="image/*" />
+                            <div className={styles.form__add_left}>
+                                <RatingSet size={28} setState={setRating}/>
+                                <ButtonID_2 src={Photo} size={30} width={18} onClick={handleImgButtonClick}/>
+                                <input type="file" id="img-input" onChange={handleChange} accept="image/*" />
+                            </div>
+                            {text && <p>{text.length}/320</p>}
                         </div>
                     </div>
                 </div>

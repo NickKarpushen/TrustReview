@@ -58,6 +58,18 @@ const ReviewEdit = () => {
         document.getElementById('img-input').click();
     }
 
+    const handleTitleChange = (value) => {
+        if (value.length <= 80){
+            setTitle(value);
+        }
+    };
+
+    const handleTextChange = (value) => {
+        if (value.length <= 320){
+            setText(value);
+        }
+    };
+
     return (
         <div className={styles.conteiner}>
             <div className={styles.background} onClick={handleBackClick}></div>
@@ -70,15 +82,19 @@ const ReviewEdit = () => {
                     </div>
                     <div className={styles.form__body}>
                         <div className={styles.form__inputBar}>
-                            <InputID_2 placeholder="title" value={title} setState={setTitle}/>
+                            <InputID_2 placeholder="title" value={title} setState={handleTitleChange}/>
+                            {title && <p>{title.length}/80</p>}
                         </div>
                         <div className={styles.form__inputBar}>
-                            <TextareaID_1 placeholder="text" value={text} setState={setText}/>
+                            <TextareaID_1 placeholder="text" value={text} setState={handleTextChange}/>
                         </div>
                         <div className={styles.form__flexBar}>
-                            <ButtonID_2 src={Photo} size={30} width={18} onClick={handleImgButtonClick}/>
-                            <ButtonID_2 src={Delete} size={30} width={18} onClick={handleDeleteReview}/>
-                            <input className={styles.input} type="file" id="img-input" onChange={handleChange} accept="image/*" />
+                            <div className={styles.form__flexBar_left}>
+                                <ButtonID_2 src={Photo} size={30} width={18} onClick={handleImgButtonClick}/>
+                                <ButtonID_2 src={Delete} size={30} width={18} onClick={handleDeleteReview}/>
+                                <input className={styles.input} type="file" id="img-input" onChange={handleChange} accept="image/*" />
+                            </div>
+                            {text && <p>{text.length}/320</p>}
                         </div>
                     </div>
                 </div>

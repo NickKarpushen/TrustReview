@@ -54,11 +54,21 @@
 
     &__inputBar{
         margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     &__flexBar{
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         gap: 20px;
+
+        &_left{
+            display: flex;
+            gap: 20px;
+        }
     }
 }
 

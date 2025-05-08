@@ -232,7 +232,7 @@ const deleteReply = async(req, res) => {
         const reply = await Review.findOneAndDelete( { _id: reply_id} );
         const review = await Review.findOne( { _id: reply.parent_id} );
 
-        review.replies_count -= 1;
+        review.replies_count === 1 ? review.replies_count = null : review.replies_count -= 1;
 
         await review.save();
 

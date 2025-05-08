@@ -75,12 +75,21 @@
 
     &__inputBar{
         margin-top: 20px;
+        display: flex;
+        gap:10px;
+        align-items: center;
     }
 
     &__add{
         margin-top: 10px;
         display: flex;
-        gap: 18px;
+        justify-content: space-between;
+        align-items: center;
+
+        &_left{
+            display: flex;
+            gap: 18px;
+        }
 
         input{
             display: none;
