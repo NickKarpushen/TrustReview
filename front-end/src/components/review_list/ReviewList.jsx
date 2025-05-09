@@ -38,6 +38,11 @@ const ReviewList = (props) =>{
             const res = await GetReviews(props.item, user && user._id);
             console.log(res)
             setReview(res);
+
+            if (!res.replies_count){
+                setSelectedReviewId_2(null)
+            }
+
         }catch (error){
             console.log(error);
         }
@@ -227,7 +232,7 @@ const ReviewList = (props) =>{
                         </div>
                         <div className={styles.item__ratingBar}>
                             <RatingCount rating={review.rating} size={30}/>
-                            {review.status === 0 ? <p>Awaiting verification</p> : <p>verified</p>}
+                            {review.status === 0 ? <p>Awaiting verification</p> : <p className={styles.status__active}>verified</p>}
                         </div>
                     </div>
                     {(review.text !== '' || review.title !== '' || review.image.data) && <hr/>}

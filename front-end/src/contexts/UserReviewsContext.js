@@ -15,6 +15,7 @@ export const UserReviewsProvider = ({children}) => {
     const updateReviews = async() => {
         try{
             const res = await GetUserReviews(user._id)
+            console.log("Відгуки надісланні")
             setReviews(res);
         }catch (error){
             console.log(error.response ? error.response : { message: error.message });

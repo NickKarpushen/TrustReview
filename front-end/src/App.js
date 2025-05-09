@@ -26,7 +26,7 @@ function App() {
 
   const location = useLocation();
   const [isMenu, setIsMenu] = useState(false);
-  const {user} = useUser();
+  const {user, isLoading} = useUser();
   
   const handleMenuClick = () =>{
     setIsMenu(!isMenu)
@@ -37,6 +37,10 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  if (isLoading){
+    return <>завантаження</>
+  }
 
   const showMenu = location.pathname !== '/log_in' && location.pathname !== '/sign_up' && location.pathname !== '/sign_up_business';
 

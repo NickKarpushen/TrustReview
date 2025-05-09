@@ -5,6 +5,7 @@ const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
     const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async() => {
@@ -14,6 +15,8 @@ export const UserProvider = ({children}) => {
                 console.log(res.message);
             }catch (error){
                 console.log("Error:", error.response?.data?.message || error.message || "Невідома помилка")
+            }finally {
+                setIsLoading(false);
             }
         }
         
@@ -31,6 +34,8 @@ export const UserProvider = ({children}) => {
                 console.log(res.message);
             }catch (error){
                 console.log("Error:", error.response?.data?.message || error.message || "Невідома помилка")
+            }finally {
+                setIsLoading(false);
             }
         }
         
@@ -38,7 +43,7 @@ export const UserProvider = ({children}) => {
     };
 
     return (
-        <UserContext.Provider value={{user, updateUser}}>
+        <UserContext.Provider value={{user, isLoading, updateUser}}>
             {children}
         </UserContext.Provider>
     );

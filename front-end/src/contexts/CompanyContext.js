@@ -7,6 +7,7 @@ const CompanyContext = createContext(null);
 export const CompanyProvider = ({children}) => {
     const [company, setCompany] = useState(null)
     const {user} = useUser();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         updateCompany();
@@ -18,11 +19,13 @@ export const CompanyProvider = ({children}) => {
             setCompany(res.company);
         }catch (error){
             console.log(error.response ? error.response : { message: error.message });
+        }finally {
+            setIsLoading(false);
         }
     }
 
     return (
-        <CompanyContext.Provider value={{company, updateCompany}}>
+        <CompanyContext.Provider value={{company, isLoading, updateCompany}}>
             {children}
         </CompanyContext.Provider>
     );

@@ -18,14 +18,14 @@ const CompanyEdit = () => {
 
     const {user} = useUser();
     const navigate = useNavigate();
-    const {company, updateCompany} = useCompany();
+    const {company, isLoading, updateCompany} = useCompany();
 
-    const [company_name, setCompanyName] = useState(company.company_name);
-    const [website_link, setWebsiteLink] = useState(company.website_link);
-    const [phone_number, setPhoneNumber] = useState(company.phone_number);
-    const [about_company, setAboutCompany] = useState(company.about_company);
+    const [company_name, setCompanyName] = useState('');
+    const [website_link, setWebsiteLink] = useState('');
+    const [phone_number, setPhoneNumber] = useState('');
+    const [about_company, setAboutCompany] = useState('');
     const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState(String(company.cat_id));
+    const [category, setCategory] = useState('');
     const [file, setFile] = useState();
 
     useEffect (() => {
@@ -39,6 +39,16 @@ const CompanyEdit = () => {
         }
         fetchCategory();
     }, [])
+
+    useEffect(() => {
+        if (company) {
+            setCompanyName(company.company_name || '');
+            setWebsiteLink(company.website_link || '');
+            setPhoneNumber(company.phone_number || '');
+            setAboutCompany(company.about_company || '');
+            setCategory(String(company.cat_id || ''));
+        }
+    }, [company]);
 
     const handleBackClick = () => {
         navigate(-1);
@@ -65,6 +75,10 @@ const CompanyEdit = () => {
 
     if(!user){
         return <div>Loading</div>
+    }
+
+    if (isLoading || !company) {
+        return <>Loading...</>;
     }
 
     return (

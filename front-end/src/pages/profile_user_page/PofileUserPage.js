@@ -10,7 +10,7 @@ import Avatar from '../../assets/image/avatar.png';
 
 const ProfileUser = (props) => {
 
-    const {user} = useUser();
+    const {user, isLoading} = useUser();
     const navigate = useNavigate();
 
     const formattedDate = (value) =>{
@@ -28,6 +28,10 @@ const ProfileUser = (props) => {
     
     const handleToCompanyClick = () =>{
         navigate('/my_company')
+    }
+
+    if (!user){
+        return 0;
     }
 
     return (

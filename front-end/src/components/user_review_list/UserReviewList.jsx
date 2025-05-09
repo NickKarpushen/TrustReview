@@ -29,7 +29,7 @@ const UserReviewList = (props) =>{
 
     return (
         <section className={styles.list}>
-            {reviews.map((review) => (
+            {reviews && reviews.map((review) => (
                 <div className={styles.item}>
                     <div className={styles.item__company}>
                         <div>
@@ -71,7 +71,7 @@ const UserReviewList = (props) =>{
                         <hr/>
                         <div className={styles.item__rating}>
                             <RatingCount rating={review.rating} size={30}/>
-                            {review.status === 0 ? <p>Awaiting verification</p> : <p>verified</p>}
+                            {review.status === 0 ? <p>Awaiting verification</p> : <p className={styles.status__active}>verified</p>}
                         </div>
                     </div>
                 </div>

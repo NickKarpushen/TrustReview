@@ -13,12 +13,14 @@ import Post from '../../assets/icon/post.png';
 import { useCompany } from '../../contexts/CompanyContext';
 
 const CompanyUserPage = (props) => {
-    const { company } = useCompany();
+    const { company, isLoadnig } = useCompany();
     const navigate = useNavigate();
     
     const handleToEditClick = () => {
         navigate('company_edit');
-    } 
+    }
+
+    if (isLoadnig) return <>завантаження</>
 
     return (
         <div className={styles.conteiner}>
