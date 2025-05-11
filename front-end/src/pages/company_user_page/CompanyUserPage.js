@@ -46,7 +46,7 @@ const CompanyUserPage = (props) => {
                             <h1>{company && company.company_name}</h1>
                             <div className={styles.companyData__rating}>
                                 <RatingCount rating={company && company.rating} size={40}/>
-                                <h2>{Math.round(company && company.rating * 100) / 100}</h2>
+                                <h2>{Math.round(company && company.rating * 10) / 10}</h2>
                             </div>
                             <h3>Reviews {company && company.review_count}</h3>
                         </div>

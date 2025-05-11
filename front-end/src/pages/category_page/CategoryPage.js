@@ -98,7 +98,7 @@ const CategoryPage = (props) => {
                                 <h3>{company.website_link}</h3>
                                 <div className={styles.main__rating}>
                                     <RatingCount rating={company.rating} size={30}/>
-                                    <h2>{Math.round(company.rating * 100) / 100}</h2>
+                                    <h2>{Math.round(company.rating * 10) / 10}</h2>
                                     <h2>Reviews ({company.review_count})</h2>
                                 </div>
                             </div>
