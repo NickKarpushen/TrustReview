@@ -16,7 +16,7 @@ const CategoryPage = (props) => {
     const {user} = useUser();
     const {category} = location.state;
     const [companies, setCompanies] = useState([]);
-    const [minRating, setMinRating] = useState('');
+    const [minRating, setMinRating] = useState(0);
     const [sortBy, setSortBy] = useState('');
 
     useEffect (() => {

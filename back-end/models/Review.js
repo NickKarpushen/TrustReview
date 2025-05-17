@@ -15,6 +15,7 @@ const reviewSchema = new db.Schema({
     likes_count: {type: Number, default: null},
     replies_count: {type: Number, default: null},
     status: {type: Number, default: 0},
+    replyAdmin: {type: Number, default: 0},
     createdAt: {type: Date, default: Date.now}
 })
 

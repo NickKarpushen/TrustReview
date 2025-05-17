@@ -9,6 +9,7 @@ import CrossImage from '../../assets/icon/cross.png';
 import CloseEye from '../../assets/icon/closeEye.png';
 import Eye from '../../assets/icon/eye.png';
 import { useUser } from '../../contexts/UserContext';
+import { useNotification } from '../../contexts/NotificationContext';
 
 import { Authentication } from '../../api/users';
 
@@ -16,6 +17,7 @@ const LogInPage = () => {
 
     const navigate = useNavigate();
     const {updateUser} = useUser();
+    const { showNotification } = useNotification();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordConfirm, setPasswordConfirm] = useState();
@@ -26,9 +28,11 @@ const LogInPage = () => {
         try{
             const res = await Authentication(email, password, passwordConfirm);
             updateUser();
+            showNotification("Successful authorization", "Success")
             navigate('/')
         }catch (error) {
-            console.log("Error:", error.response?.data?.message || error.message || "Невідома помилка");
+            console.log(error.data.message);
+            showNotification(error.data.message, "Error")
         }
     }
 

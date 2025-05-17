@@ -11,6 +11,7 @@ import TextareaID_1 from "../textarea/textarea_id_1/TextareaID_1";
 import {UpdateReview, DeleteReview} from "../../api/review.js";
 import {useUser} from '../../contexts/UserContext.js';
 import { useUserReviews } from "../../contexts/UserReviewsContext.js";
+import { useNotification } from "../../contexts/NotificationContext.js";
 
 const ReviewEdit = () => {
 
@@ -19,6 +20,7 @@ const ReviewEdit = () => {
     const {review} = location.state;
     const {updateReviews} = useUserReviews();
     const {updateUser} = useUser();
+    const {showNotification} = useNotification();
 
     const [title, setTitle] = useState(review.title);
     const [text, setText] = useState(review.text);
@@ -31,10 +33,10 @@ const ReviewEdit = () => {
     const handleUpdateReview = async() => {
         try{
             const res = await UpdateReview(title, text, file, review._id);
-            console.log(res);
+            showNotification("Successful update", "Success")
             updateReviews();
         }catch (error){
-            console.log(error.response ? error.response : { message: error.message });
+            showNotification(error.data.message, "Error")
         }
     }
 
@@ -43,10 +45,11 @@ const ReviewEdit = () => {
             const res = await DeleteReview(review._id);
             updateUser();
             updateReviews();
-            console.log(res);
+            showNotification("Successful delete", "Success");
             navigate(-1);
         }catch (error){
             console.log(error.response ? error.response : { message: error.message });
+            showNotification(error.data.message, "Error");
         }
     }
 

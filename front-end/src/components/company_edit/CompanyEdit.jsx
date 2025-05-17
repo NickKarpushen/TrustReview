@@ -13,10 +13,12 @@ import SelectID_1 from '../selects/select_id_1/SelectID_1';
 import { GetCategories } from "../../api/categories";
 import { UpdateCompany } from "../../api/companies";
 import { useCompany } from '../../contexts/CompanyContext';
+import { useNotification } from "../../contexts/NotificationContext";
 
 const CompanyEdit = () => {
 
     const {user} = useUser();
+    const { showNotification } = useNotification();
     const navigate = useNavigate();
     const {company, isLoading, updateCompany} = useCompany();
 
@@ -59,9 +61,10 @@ const CompanyEdit = () => {
             const res = await UpdateCompany(file, company,
                 company_name, website_link, phone_number, about_company, category);
             updateCompany();
-            console.log(res);
+            showNotification("Success update", "Success");
         }catch (error){
-            console.log(error.response ? error.response : { message: error.message });
+            console.log(error)
+            showNotification(error.data.message, "Error")
         }
     }
 

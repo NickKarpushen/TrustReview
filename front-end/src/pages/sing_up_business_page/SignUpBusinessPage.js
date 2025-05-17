@@ -10,11 +10,13 @@ import CloseEye from '../../assets/icon/closeEye.png';
 import Eye from '../../assets/icon/eye.png';
 import { SignUpBusiness } from '../../api/users';
 import { GetCategories } from '../../api/categories';
+import { useNotification } from '../../contexts/NotificationContext';
 
 
 const SignUpBusinessPage = () => {
 
     const navigate = useNavigate();
+    const {showNotification} = useNotification();
     const [name, setName] = useState();
     const [surname, setSurname] = useState();
     const [email, setEmail] = useState();
@@ -50,10 +52,12 @@ const SignUpBusinessPage = () => {
                 company_name, work_email, phone_number, website_link, number_employment, category);
             console.log(res)
             if (res.status === 201){
+                showNotification("Successful registration", "Success")
                 navigate('/log_in');
             }
         }catch (error) {
             console.log("Error:", error.response.data.message);
+            showNotification(error.response.data.message, "Error")
         }
     }
 

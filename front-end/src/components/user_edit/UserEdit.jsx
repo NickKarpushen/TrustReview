@@ -9,10 +9,12 @@ import ButtonID_2 from "../buttons/button_id_2/ButtonID_2";
 import ButtonID_1 from "../buttons/button_id_1/ButtonID_1";
 import InputID_2 from '../../components/inputs/input_id_2/InputID_2'
 import { UpdateUser } from "../../api/users";
+import { useNotification } from "../../contexts/NotificationContext";
 
 const UserEdit = () => {
 
     const {user, updateUser} = useUser();
+    const {showNotification} = useNotification();
     const navigate = useNavigate();
 
     const [name, setName] = useState(user && user.name);
@@ -27,9 +29,9 @@ const UserEdit = () => {
         try{
             const res = await UpdateUser(file, user, name, surname); 
             await updateUser();
-            console.log(res);
+            showNotification("Update successful", "Success")
         }catch (error){
-            console.log(error.response ? error.response : { message: error.message });
+            showNotification(error.data.message, "Error")
         }
     }
 

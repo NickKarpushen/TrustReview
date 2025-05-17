@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useNotification } from '../../contexts/NotificationContext';
 import styles from './SignUpPage.module.scss';
 import InputID_2 from '../../components/inputs/input_id_2/InputID_2';
 import ButtonID_3 from '../../components/buttons/button_id_3/ButtonID_3';
@@ -14,6 +15,7 @@ import { SignUpUser } from '../../api/users';
 const SignUpPage = () => {
 
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
     const [name, setName] = useState();
     const [surname, setSurname] = useState();
     const [email, setEmail] = useState();
@@ -27,10 +29,12 @@ const SignUpPage = () => {
             const res = await SignUpUser(name, surname, email, password, passwordConfirm);
             console.log(res)
             if (res.status === 201){
+                showNotification("Successful registration", "Success")
                 navigate('/log_in');
             }
         }catch (error) {
-            console.log("Error:", error.response?.data?.message || error.message);
+            console.log(error.data.message);
+            showNotification(error.data.message, "Error")
         }
     }
     

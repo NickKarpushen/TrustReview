@@ -18,6 +18,10 @@ const createReview= async(req, res) => {
 
         rating = Number(rating);
 
+        if (!rating || rating === 'undefined'){
+            return res.status(400).json({message: 'You must leave a rating.'});
+        }
+
         const review = await new Review({
             title: title,
             text: text,
@@ -52,8 +56,7 @@ const createReview= async(req, res) => {
 
         res.status(200).json({message: 'Review created successfully'})
     }
-    catch (error){
-        console.error("Server error:", error);  
+    catch (error){  
         res.status(500).json({message: 'Error get company'});
     }
 }
@@ -171,7 +174,7 @@ const updateReview = async(req, res) =>{
         await review.save();
 
         res.status(200).json({message: 'Review updated successfully'})
-    }catch{
+    }catch (error){
         res.status(500).json({ message: "Server error" });
     }
 }
@@ -181,16 +184,22 @@ const createReply = async(req, res) => {
 
         let {text, user_id, company_id, parent_id} = req.body;
 
-        if (text === null || text === '') return res.status(404).json({message: 'Text is empty'}) 
+        const user = await User.findById(user_id);
+        const company = await Company.findById(company_id);
+
+        if (text === null || text === '') return res.status(404).json({message: 'Text is required'}) 
 
         rating = 0;
+
+        console.log(user_id == company.user_id)
 
         const review = await new Review({
             text: text,
             rating: rating,
             user_id: user_id,
             company_id: company_id,
-            parent_id: parent_id
+            parent_id: parent_id,
+            replyAdmin: user_id == company.user_id ? 1 : 0
         });
 
         const parentReview = await Review.findById(parent_id);
@@ -249,7 +258,7 @@ const getReplies = async(req, res) => {
 
         const replies = await Review.find({ 
             parent_id: parent_id 
-        }).sort({ createdAt: -1 });
+        }).sort({  replyAdmin: -1, createdAt: -1 });
         
         const newReplies = [];
 

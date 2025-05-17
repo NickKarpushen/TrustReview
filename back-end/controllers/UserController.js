@@ -24,9 +24,59 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
+const validatePassword = (password) => {
+
+    if (!password || password.length == 0) {
+        return 'Password is required';
+    }
+
+    if (password.length < 8) {
+        return 'Password must be at least 8 characters long';
+    }
+
+    if (/\s/.test(password)) {
+        return 'Password must not contain spaces';
+    }
+
+    if (!/[a-zA-Z]/.test(password)) {
+        return 'Password must contain at least one letter';
+    }
+
+    return null;
+};
+
+const validateDataUser = (dataName, data) => {
+
+    if (!data || data.trim() === '') {
+        return `${dataName} is required`;
+    }
+
+    if (/\s/.test(data)) {
+        return `${dataName} must not contain spaces`;
+    }
+
+    return null
+
+};
+
 const createUser = async(req, res) => {
     try {
         const { name, surname, email, password, passwordConfirm, role } = req.body;
+        
+        const emailError = validateDataUser("Email", email);
+        if (emailError) {
+            return res.status(400).json({ message: emailError });
+        }
+
+        const nameError = validateDataUser("Name", name);
+        if (nameError) {
+            return res.status(400).json({ message: nameError });
+        }
+
+        const surnameError = validateDataUser("Surname", surname);
+        if (surnameError) {
+            return res.status(400).json({ message: surnameError });
+        }
 
         const user = await User.findOne({email});
         
@@ -36,6 +86,11 @@ const createUser = async(req, res) => {
 
         if (password != passwordConfirm){
             return res.status(400).json({message: 'Password not confirmed'})
+        }
+
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            return res.status(400).json({ message: passwordError });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -59,7 +114,30 @@ const createBusiness = async(req, res) => {
             company_name, work_email, phone_number, website_link, number_employment, cat_id
         } = req.body;
 
-        console.log(cat_id)
+        const emailError = validateDataUser("Email", email);
+        if (emailError) {
+            return res.status(400).json({ message: emailError });
+        }
+
+        const nameError = validateDataUser("Name", name);
+        if (nameError) {
+            return res.status(400).json({ message: nameError });
+        }
+
+        const surnameError = validateDataUser("Surname", surname);
+        if (surnameError) {
+            return res.status(400).json({ message: surnameError });
+        }
+
+        const emailWorkError = validateDataUser("Work email", work_email);
+        if (emailWorkError) {
+            return res.status(400).json({ message: emailWorkError });
+        }
+
+        const companyNameError = validateDataUser("Company name", company_name);
+        if (companyNameError) {
+            return res.status(400).json({ message: companyNameError });
+        }
 
         const user = await User.findOne({ email });
         if (user) {
@@ -68,6 +146,11 @@ const createBusiness = async(req, res) => {
 
         if (password !== passwordConfirm) {
             return res.status(400).json({ message: 'Password not confirmed' });
+        }
+
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            return res.status(400).json({ message: passwordError });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -145,6 +228,17 @@ const profileUser = async(req, res) => {
 const updateUser = async(req, res) => {
     try {
         const { userId, name, surname } = req.body;
+
+        const nameError = validateDataUser("Name", name);
+        if (nameError) {
+            return res.status(400).json({ message: nameError });
+        }
+
+        const surnameError = validateDataUser("Surname", surname);
+        if (surnameError) {
+            return res.status(400).json({ message: surnameError });
+        }
+
         const user = await User.findById(userId);
 
         if (!user) return res.status(404).json({ message: 'User not found' });

@@ -53,7 +53,6 @@ export const Authentication = async(email, password, passwordConfirm) => {
             passwordConfirm: passwordConfirm
         })
         sessionStorage.setItem("token", res.data.token);
-        console.log(res.data.token);
         return res.data;
     } catch (error){
         throw error.response ? error.response : { message: error.message };

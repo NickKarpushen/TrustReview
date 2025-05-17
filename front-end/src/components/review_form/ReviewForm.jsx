@@ -11,10 +11,12 @@ import InputID_2 from '../../components/inputs/input_id_2/InputID_2';
 import TextareaID_1 from '../../components/textarea/textarea_id_1/TextareaID_1';
 import RatingSet from "../rating_set/RatingSet";
 import { ReviewCreate } from "../../api/review";
+import { useNotification } from '../../contexts/NotificationContext';
 
 const ReviewForm = () => {
 
     const {user, updateUser} = useUser();
+    const { showNotification } = useNotification();
     const navigate = useNavigate();
     const location = useLocation();
     const {company} = location.state;
@@ -32,9 +34,10 @@ const ReviewForm = () => {
         try{
             const res = await ReviewCreate(file, title, text, rating, user._id, company._id) 
             updateUser();
-            console.log(res.data.message);
+            showNotification("Successful creation", "Success")
         }catch (error){
             console.log(error.response ? error.response : { message: error.message });
+            showNotification(error.data.message, "Error")
         }
     }
 

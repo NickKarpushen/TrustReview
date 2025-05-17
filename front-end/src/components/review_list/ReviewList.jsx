@@ -5,6 +5,7 @@ import ButtonID_2 from "../buttons/button_id_2/ButtonID_2";
 import ButtonID_1 from "../buttons/button_id_1/ButtonID_1";
 import TextareaID_1 from "../textarea/textarea_id_1/TextareaID_1";
 import { GetReviews} from "../../api/review";
+import { useNotification } from '../../contexts/NotificationContext';
 import Avatar from "../../assets/image/avatar.png";
 import LikeDisactive from "../../assets/icon/like_disactive.png";
 import LikeActive from "../../assets/icon/like_active.png";
@@ -17,6 +18,7 @@ import axios from "axios";
 
 const ReviewList = (props) =>{
 
+    const { showNotification } = useNotification();
     const [reviews, setReview] = useState([]);
     const [replies, setReplies] = useState([]);
     const [selectedReviewId, setSelectedReviewId] = useState(null);
@@ -30,7 +32,6 @@ const ReviewList = (props) =>{
 
     useEffect(() => {
         fetchGetReview();
-        console.log('sadasdsa')
     }, [props.item]);
 
     const fetchGetReview = async() => {
@@ -49,11 +50,11 @@ const ReviewList = (props) =>{
     }
 
     const fetchGetReplies = async(review_id) => {
-        console.log(review_id)
         try{
             const res = await axios.get('http://localhost:4000/api/replies',{ 
                 params: { parent_id: review_id },
             });
+            console.log(res.data.newReplies);
             setReplies(res.data.newReplies);
         }catch(error){
             console.log(error);
@@ -108,9 +109,11 @@ const ReviewList = (props) =>{
             await fetchGetReview();
             await fetchGetReplies(review_id);
             setSelectedReviewId(null);
+            showNotification("Success created", "Success");
             setText(null);
         }catch (error) {
             console.log(error)
+            showNotification(error.response.data.message, "Error");
         }
     };
 
@@ -126,9 +129,11 @@ const ReviewList = (props) =>{
             })
             setSelectedEdit(null);
             setEditText(null);
+            showNotification("Success update", "Success")
             await fetchGetReplies(selectedReviewId_2);
         }catch (error) {
             console.log(error);
+            showNotification(error.response.data.message, "Error")
         }
     };
 
@@ -142,8 +147,10 @@ const ReviewList = (props) =>{
             })
             await fetchGetReview()
             await fetchGetReplies(selectedReviewId_2);
+            showNotification("Success delete", "Success")
         }catch (error) {
             console.log(error);
+            showNotification(error.response.data.message, "Error")
         }
     };
 
@@ -272,7 +279,7 @@ const ReviewList = (props) =>{
                                         style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
                                     />
                                     ) : (
-                                        <img src={Avatar} width='150px' height='150px'/>
+                                        <img src={Avatar} width='50px' height='50px'/>
                                     )
                                 }
                             </div>
@@ -305,12 +312,13 @@ const ReviewList = (props) =>{
                                                     style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
                                                 />
                                             ) : (
-                                                <img src={Avatar} width='150px' height='150px'/>
+                                                <img src={Avatar} width='50px' height='50px'/>
                                             )
                                             }
                                             </div>
                                             <div className={styles.item__userBar}>
-                                                <h3>{reply && reply.user_name} {reply && reply.user_surname}</h3><p>{formattedDate(reply.createdAt)}</p>
+                                                <h3>{reply && reply.user_name} {reply && reply.user_surname}</h3>{reply.replyAdmin ? <p>Owner's response</p> : null}
+                                                <p>{formattedDate(reply.createdAt)}</p>
                                                 <h4>{reply && reply.user_email}</h4>
                                             </div>
                                         </div>

@@ -5,6 +5,16 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+const validateDataCompany = (dataName, data) => {
+
+    if (!data || data.trim() === '') {
+        return `${dataName} is required`;
+    }
+
+    return null
+
+};
+
 const getCompany = async(req, res) => {
     const {user_id} = req.query;
     try {
@@ -67,7 +77,12 @@ const updateCompany = async(req, res) => {
         const lastCategory = await Category.findById(company.cat_id);
         const futureCategory = await Category.findById(category);
 
-        if (!company) return res.status(404).json({ message: 'User not found' });
+        const companyNameError = validateDataCompany("Company name", company_name);
+        if (companyNameError) {
+            return res.status(400).json({ message: companyNameError });
+        }
+
+        if (!company) return res.status(404).json({ message: 'Company not found' });
 
         if (category !== String(company.cat_id)){
             lastCategory.company_count -= 1;
