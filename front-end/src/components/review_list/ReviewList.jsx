@@ -109,7 +109,7 @@ const ReviewList = (props) =>{
             await fetchGetReview();
             await fetchGetReplies(review_id);
             setSelectedReviewId(null);
-            showNotification("Success created", "Success");
+            showNotification("Reply created", "Success");
             setText(null);
         }catch (error) {
             console.log(error)
@@ -129,7 +129,7 @@ const ReviewList = (props) =>{
             })
             setSelectedEdit(null);
             setEditText(null);
-            showNotification("Success update", "Success")
+            showNotification("Reply update", "Success")
             await fetchGetReplies(selectedReviewId_2);
         }catch (error) {
             console.log(error);
@@ -147,7 +147,7 @@ const ReviewList = (props) =>{
             })
             await fetchGetReview()
             await fetchGetReplies(selectedReviewId_2);
-            showNotification("Success delete", "Success")
+            showNotification("Reply delete", "Success")
         }catch (error) {
             console.log(error);
             showNotification(error.response.data.message, "Error")
